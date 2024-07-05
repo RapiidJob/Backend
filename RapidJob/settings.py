@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
 
-    'accounts',
-    'jobs',
-    'messages',
+    'accounts.apps.AccountsConfig',
+    'jobs.apps.JobsConfig',
+    'messages.apps.MessagesConfig',
 ]
 
 MIDDLEWARE = [
