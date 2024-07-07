@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#3a18-!*9h^f+&86!9@sy!t5=t5k*ru=2kwfwpuv!5-h%sngrs'
+SECRET_KEY = 'django-insecure-75f)&#u(1+7qbxaq*d+-l%4ek#ei3^)wzam9g22tpl(^=1arsu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,18 +31,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     'channels',
     'rest_framework',
     'djoser',
-    'drf_yasg',
-
+    'drf_yasg', 
+    
+    
     'accounts.apps.AccountsConfig',
     'jobs.apps.JobsConfig',
     'messages.apps.MessagesConfig',
@@ -58,12 +61,61 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+     'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=5),
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
+# settings.py
+
+# Djoser settings for custom user model
+DJOSER = {
+    'USER_ID_FIELD': 'id',
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'user_create': 'accounts.serializers.CustomUserRegisterSerializer',
+        'user': 'accounts.serializers.CustomUserSerializer',
+        'current_user': 'accounts.serializers.CustomUserSerializer',
+        'token': 'djoser.serializers.TokenCreateSerializer',
+        'token_create': 'djoser.serializers.TokenCreateSerializer',
+    },
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/users/reset_password_confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'LOGOUT_ON_PASSWORD_CHANGE': False,
+}
+
+
+
+
 ROOT_URLCONF = 'RapidJob.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,6 +140,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sgere195@gmail.com'
+EMAIL_HOST_PASSWORD = '123456789_'
+DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
 
 
 # Password validation
@@ -128,5 +188,8 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ASGI_APPLICATION = 'RapidJob.asgi.application'
