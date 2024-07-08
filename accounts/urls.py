@@ -5,7 +5,10 @@ from . import views
 
 urlpatterns = [
     path('employer/create/', views.EmployerProfileCreateAPIView.as_view(), name='employer-create'),
-    path('employer/<int:pk>/', views.EmployerProfileRetrieveUpdateAPIView.as_view(), name='employer-detail-update'),
+    path('employer', views.EmployerProfileRetrieveUpdateAPIView.as_view(), name='employer-detail-update'),
     path('worker/create/', views.WorkerProfileCreateAPIView.as_view(), name='worker-create'),
-    path('worker/<int:pk>/', views.WorkerProfileRetrieveUpdateAPIView.as_view(), name='worker-detail-update'),
+    path('worker', views.WorkerProfileRetrieveUpdateAPIView.as_view(), name='worker-detail-update'),
+    path('register/', views.UserRegisterView.as_view(), name='register'),
+    path('login/', views.LoginView.as_view(), name='login'),
+
 ]

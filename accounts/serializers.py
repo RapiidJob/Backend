@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser, WorkerProfile, EmployerProfile, UserAddress
+from django.contrib.auth import authenticate
 
 class UserAddressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,17 +17,17 @@ class UserAddressSerializer(serializers.ModelSerializer):
 class CustomUserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ("email", "password")
+        fields = ("email", "password", "first_name","account_type", "middle_name", "last_name", "phone_number",)
         
     def create(self, validated_data):
         password = validated_data.pop('password', None)
+        type = validated_data.pop("user_type", None)
         instance = self.Meta.model(**validated_data)
         if password:
             instance.set_password(password)
         instance.save()
         return instance
-        
-
+    
 # class CustomUserCreateSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = CustomUser
@@ -61,7 +62,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('id', 'email', 'first_name', 'last_name', 'birth_date', 'gender', 'phone_number',
                   'verification_type', 'verification_document', 'profile_image', 'address',
-                  'is_worker', 'is_employer', 'is_admin', 'is_identity_verified',
+                  "account_type", 'is_identity_verified',
                   'is_email_verified', 'is_phone_verified', 'rating', 'created_at')
         read_only_fields = ('email', 'created_at', 'is_identity_verified', 'is_email_verified', 'is_phone_verified', 'rating', 'password')
 
@@ -99,11 +100,15 @@ class EmployerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EmployerProfile
-        fields = ('id', 'user', 'plan', 'last_paid')
+        fields = ('id', 'user', 'plan')
     
     def create(self, validated_data):
         user_data = validated_data.pop('user', {})
         user_instance = self.context['request'].user  # Retrieve current user from request
+        if user_instance.account_type != "Employer":
+            return None
+        # user_data["is_employer"] = True
+        # user_instance.is_employer = True
 
         # Update user instance with provided data
         user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
@@ -125,7 +130,7 @@ class EmployerProfileSerializer(serializers.ModelSerializer):
 
         # Update EmployerProfile instance with validated data
         instance.plan = validated_data.get('plan', instance.plan)
-        instance.last_paid = validated_data.get('last_paid', instance.last_paid)
+        # instance.last_paid = validated_data.get('last_paid', instance.last_paid)
         instance.user = user_instance
         instance.save()
 
@@ -137,11 +142,57 @@ class WorkerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkerProfile
-        fields = ('id', 'user', 'plan', 'prefered_job_categories', 'last_applied', 'last_paid')
+        fields = ('id', 'user', 'plan')
+        
+    
+    def create(self, validated_data):
+        user_data = validated_data.pop('user', {})
+        user_instance = self.context['request'].user  # Retrieve current user from request
+        if user_instance.account_type != "Worker":
+            return None
+        # user_data["is_worker"] = True
+
+        # Update user instance with provided data
+        user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
+        if user_serializer.is_valid():
+            user_serializer.save()
+
+        # Create EmployerProfile instance with updated user and other validated data
+        worker_instance = WorkerProfile.objects.create(user=user_instance, **validated_data)
+        return worker_instance
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', {})
-        user_serializer = CustomUserSerializer(instance.user, data=user_data, partial=True)
+        user_instance = instance.user  # Retrieve current user from Workers instance
+
+        # Update user instance with provided data
+        user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
         if user_serializer.is_valid():
             user_serializer.save()
-        return super().update(instance, validated_data)
+
+        # Update Workers instance with validated data
+        instance.plan = validated_data.get('plan', instance.plan)
+        # instance.last_paid = validated_data.get('last_paid', instance.last_paid)
+        instance.user = user_instance
+        instance.save()
+
+        return instance
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+    
+    def validate(self, data):
+        email = data.get('email')
+        password = data.get('password')
+        
+        if email and password:
+            user = authenticate(request=self.context.get('request'), email=email, password=password)
+            if not user:
+                raise serializers.ValidationError("Invalid email or password")
+        else:
+            raise serializers.ValidationError("Both email and password are required")
+        
+        data['user'] = user
+        return data

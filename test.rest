@@ -3,12 +3,33 @@ content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwMjY0ODQ0LCJpYXQiOjE3MjAwMDU2NDQsImp0aSI6IjVmZjBmMjMyYzljYjQ4MTc5YjY3Y2JmNmEzZmVmNzE3IiwidXNlcl9pZCI6NH0.URmafE9iwK02zhRyD2NpQBAiCbHMh5jQu9IQmQM5FrI
 
 
-###
-POST http://localhost:8000/accounts/employer/create/ HTTP/1.1
+###user registration
+### requred fields email, password, phone number, gender / Male | Female , account_type / Worker | Employer
+### returns {
+### **user_data
+ ##   token : {
+ ### access: access
+ ### refresh : refresh
+ ###}
+###}
+POST http://localhost:8000/accounts/register/ HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwMjY0ODQ0LCJpYXQiOjE3MjAwMDU2NDQsImp0aSI6IjVmZjBmMjMyYzljYjQ4MTc5YjY3Y2JmNmEzZmVmNzE3IiwidXNlcl9pZCI6NH0.URmafE9iwK02zhRyD2NpQBAiCbHMh5jQu9IQmQM5FrI
 
-{"user": {"email": "sgere195@gmail.com","phone_number":"0994934835", "password": "123456789_", "gender":"Female","rating":3, "is_identity_verified":true, "address":{"country":"ethiopia", "region":"Oromia"}}}
+{"email": "abduu@gmail.com","account_type" : "Employer", "phone_number":"0994934835", "password": "1234", "gender":"Female", "first_name":"abdu", "middle_name": "hussen", "last_name": "Ali"}
+
+### user login requred fields
+### email, password
+### returns
+###{
+### user : {**userdata}
+### roken {access: access, refresh: refresh}
+###}
+POST http://localhost:8000/accounts/login/ HTTP/1.1
+content-type: application/json
+
+{"email": "abdu@gmail.com", "password": "1234"}
+
+
 
 ###
 

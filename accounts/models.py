@@ -44,11 +44,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ("DriversLicense", "DriversLicense"),
         ("SchoolId", "SchoolId"),
     )
+    ACCOUNT_CHOICES = (
+        ("Worker", "Worker"), ("Employer", "Employer"),( "Admin", "Admin")
+    )
+    
     created_at = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(unique=True)
-    is_worker = models.BooleanField(default=False, null=True, blank=True)
-    is_employer = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    account_type = models.CharField(max_length=20, choices=ACCOUNT_CHOICES, default="Worker")
     
     first_name = models.CharField(max_length=100, null=True, blank=True)
     middle_name = models.CharField(max_length=100, null=True, blank=True)
@@ -56,7 +58,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=100, choices=GENDER_CHOICES, null=True, blank=True)
-    profile_image = models.ImageField(upload_to='profile_images', null=True, blank=True)
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     is_identity_verified = models.BooleanField(default=False)
     
     verification_type = models.CharField(max_length=100, choices=VERIFICATION_CHOICES, null=True, blank=True)
@@ -87,10 +89,10 @@ class WorkerProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='worker_profile')
     plan = models.CharField(max_length=100, choices=PLAN_CHOICES, default='Free')
-    prefered_job_categories = models.ManyToManyField(JobCategory, related_name='worker_prefered_job_categories')
+    prefered_job_categories = models.ManyToManyField(JobCategory, related_name='job_categories')
     last_applied = models.DateTimeField(null=True, blank=True)
     last_paid = models.DateTimeField(null=True, blank=True)
-
+    
 class EmployerProfile(models.Model):
     PLAN_CHOICES = (
         ("Normal", "Normal"),
