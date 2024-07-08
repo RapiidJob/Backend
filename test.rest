@@ -1,0 +1,18 @@
+GET http://localhost:8000/auth/users/me/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwMjY0ODQ0LCJpYXQiOjE3MjAwMDU2NDQsImp0aSI6IjVmZjBmMjMyYzljYjQ4MTc5YjY3Y2JmNmEzZmVmNzE3IiwidXNlcl9pZCI6NH0.URmafE9iwK02zhRyD2NpQBAiCbHMh5jQu9IQmQM5FrI
+
+
+###
+POST http://localhost:8000/accounts/employer/create/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwMjY0ODQ0LCJpYXQiOjE3MjAwMDU2NDQsImp0aSI6IjVmZjBmMjMyYzljYjQ4MTc5YjY3Y2JmNmEzZmVmNzE3IiwidXNlcl9pZCI6NH0.URmafE9iwK02zhRyD2NpQBAiCbHMh5jQu9IQmQM5FrI
+
+{"user": {"email": "sgere195@gmail.com","phone_number":"0994934835", "password": "123456789_", "gender":"Female","rating":3, "is_identity_verified":true, "address":{"country":"ethiopia", "region":"Oromia"}}}
+
+###
+
+POST http://localhost:8000/auth/jwt/create/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwMjY0ODQ0LCJpYXQiOjE3MjAwMDU2NDQsImp0aSI6IjVmZjBmMjMyYzljYjQ4MTc5YjY3Y2JmNmEzZmVmNzE3IiwidXNlcl9pZCI6NH0.URmafE9iwK02zhRyD2NpQBAiCbHMh5jQu9IQmQM5FrI
+{"email": "sgere195@gmail.com", "password": "123456789_"}
