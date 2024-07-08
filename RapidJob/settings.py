@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,14 +49,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg', 
+     'corsheaders',
+     
+
     
     
     'accounts.apps.AccountsConfig',
     'jobs.apps.JobsConfig',
     'messages.apps.MessagesConfig',
+    'applications.apps.ApplicationsConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,7 +95,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
+#postgresql://forrapidjob_user:7IOs3crixpsOPKC8sIcmVZViA1ktRFML@dpg-cq6138qju9rs73dv2gs0-a.oregon-postgres.render.com/forrapidjob
 
 # settings.py
 
@@ -140,6 +150,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES['default'] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -148,6 +159,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sgere195@gmail.com'
 EMAIL_HOST_PASSWORD = '123456789_'
 DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Password validation

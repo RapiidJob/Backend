@@ -5,7 +5,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from accounts.views import password_reset_confirm_view
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -30,8 +31,13 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('accounts/', include('accounts.urls')),
     # path('jobs/', include('jobs.urls')),
-    # path('messages/', include('messages.urls')),
+    path('messages/', include('messages.urls')),
     
     path('auth/users/reset_password_confirm/<uid>/<token>/', password_reset_confirm_view, name='password_reset_confirm'),
     path("accounts/", include("accounts.urls")),
+    path('jobs/', include('jobs.urls')),
+    path('application/', include('applications.urls') ),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
