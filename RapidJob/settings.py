@@ -150,7 +150,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES['default'] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
+#DATABASES['default'] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
