@@ -150,14 +150,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# DATABASES['default'] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
+#DATABASES['default'] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'sgere195@gmail.com'
-EMAIL_HOST_PASSWORD = '123456789_'
+EMAIL_HOST_USER = 'abdulwahidhussen10@gmail.com'
+EMAIL_HOST_PASSWORD = 'cciu gpvw kqwa gidu'
 DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
 
 CORS_ALLOW_ALL_ORIGINS = True
