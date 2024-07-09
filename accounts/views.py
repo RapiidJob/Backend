@@ -3,6 +3,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import CustomUser, EmployerProfile, WorkerProfile
 from .serializers import CustomUserRegisterSerializer, EmployerProfileSerializer, WorkerProfileSerializer, LoginSerializer, CustomUserSerializer
 
@@ -58,12 +59,44 @@ class LoginView(generics.GenericAPIView):
 class EmployerProfileCreateAPIView(generics.CreateAPIView):
     serializer_class = EmployerProfileSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
+        user_instance = request.user
+        user_data = {
+            "email": user_instance.email,
+            "first_name": request.data.get('first_name', user_instance.first_name),
+            "last_name": request.data.get('last_name', user_instance.last_name),
+            "birth_date": request.data.get('birth_date', user_instance.birth_date),
+            "gender": request.data.get('gender', user_instance.gender),
+            "phone_number": request.data.get('phone_number', user_instance.phone_number),
+            "verification_type": request.data.get('verification_type', user_instance.verification_type),
+            "verification_document": request.FILES.get('verification_document', user_instance.verification_document),
+            "profile_image": request.FILES.get('profile_image', user_instance.profile_image),
+            # "address": 
+            "account_type": user_instance.account_type,
+            "is_identity_verified": user_instance.is_identity_verified,
+            "is_email_verified": user_instance.is_email_verified,
+            "is_phone_verified": user_instance.is_phone_verified,
+            "rating": user_instance.rating,
+            "created_at": user_instance.created_at,
+        }
+        if user_data['account_type'] != 'Employer':
+            raise ValueError("User is not an employer")
+ 
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+
+        user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
+        if user_serializer.is_valid():
+            user_serializer.save()
+        else:
+            print("User serializer errors:", user_serializer.errors)
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 
 class EmployerProfileRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
@@ -82,11 +115,42 @@ class EmployerProfileRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 class WorkerProfileCreateAPIView(generics.CreateAPIView):
     serializer_class = WorkerProfileSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
+        user_instance = request.user
+
+        user_data = {
+            "email": user_instance.email,
+            "first_name": request.data.get('first_name', user_instance.first_name),
+            "last_name": request.data.get('last_name', user_instance.last_name),
+            "birth_date": request.data.get('birth_date', user_instance.birth_date),
+            "gender": request.data.get('gender', user_instance.gender),
+            "phone_number": request.data.get('phone_number', user_instance.phone_number),
+            "verification_type": request.data.get('verification_type', user_instance.verification_type),
+            "verification_document": request.FILES.get('verification_document', user_instance.verification_document),
+            "profile_image": request.FILES.get('profile_image', user_instance.profile_image),
+            "account_type": user_instance.account_type,
+            "is_identity_verified": user_instance.is_identity_verified,
+            "is_email_verified": user_instance.is_email_verified,
+            "is_phone_verified": user_instance.is_phone_verified,
+            "rating": user_instance.rating,
+            "created_at": user_instance.created_at,
+        }
+        if user_data['account_type'] != 'Worker':
+            raise ValueError("User is not an worker")
+ 
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+
+        user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
+        if user_serializer.is_valid():
+            user_serializer.save()
+        else:
+            print("User serializer errors:", user_serializer.errors)
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

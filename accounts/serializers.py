@@ -17,7 +17,7 @@ class UserAddressSerializer(serializers.ModelSerializer):
 class CustomUserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ("email", "password", "first_name","account_type", "middle_name", "last_name", "phone_number",)
+        fields = ("email", "password", "first_name","account_type", "middle_name", "last_name", "phone_number", "profile_image")
         
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -56,7 +56,6 @@ class CustomUserRegisterSerializer(serializers.ModelSerializer):
 
 #address and other user details is created when user is updated
 class CustomUserSerializer(serializers.ModelSerializer):
-    address = UserAddressSerializer(required=False)
 
     class Meta:
         model = CustomUser
@@ -70,14 +69,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'profile_image': {'required': False},
             'verification_document': {'required': False}
         }
-
-    # def create(self, validated_data):
-    #     address_data = validated_data.pop('address', None)
-    #     user = CustomUser.objects.create(**validated_data)
-    #     if address_data:
-    #         created = UserAddress.objects.create(**address_data)
-    #         user.address = created
-    #     return user
 
     def update(self, instance, validated_data):
         address_data = validated_data.pop('address', None)
@@ -96,26 +87,17 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class EmployerProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()
+    user = CustomUserSerializer
 
     class Meta:
         model = EmployerProfile
         fields = ('id', 'user', 'plan')
     
     def create(self, validated_data):
-        user_data = validated_data.pop('user', {})
-        user_instance = self.context['request'].user  # Retrieve current user from request
+        user_instance = self.context['request'].user 
         if user_instance.account_type != "Employer":
-            return None
-        # user_data["is_employer"] = True
-        # user_instance.is_employer = True
-
-        # Update user instance with provided data
-        user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
-        if user_serializer.is_valid():
-            user_serializer.save()
-
-        # Create EmployerProfile instance with updated user and other validated data
+            raise serializers.ValidationError("User is not an employer")
+        validated_data.pop('user', {})
         employer_instance = EmployerProfile.objects.create(user=user_instance, **validated_data)
         return employer_instance
     
@@ -138,7 +120,7 @@ class EmployerProfileSerializer(serializers.ModelSerializer):
 
 
 class WorkerProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()
+    user = CustomUserSerializer
 
     class Meta:
         model = WorkerProfile
@@ -146,18 +128,11 @@ class WorkerProfileSerializer(serializers.ModelSerializer):
         
     
     def create(self, validated_data):
-        user_data = validated_data.pop('user', {})
         user_instance = self.context['request'].user  # Retrieve current user from request
         if user_instance.account_type != "Worker":
             return None
-        # user_data["is_worker"] = True
-
-        # Update user instance with provided data
-        user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
-        if user_serializer.is_valid():
-            user_serializer.save()
-
-        # Create EmployerProfile instance with updated user and other validated data
+        validated_data.pop('user', {})
+        print("here")
         worker_instance = WorkerProfile.objects.create(user=user_instance, **validated_data)
         return worker_instance
 

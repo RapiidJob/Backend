@@ -37,6 +37,7 @@ class JobSubcategory(models.Model):
 PRICE_CHOICES = (
         ("Birr", "Birr"), ("USD", "USD")
     )
+
 class Job(models.Model):
     title = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField()
@@ -48,7 +49,7 @@ class Job(models.Model):
     currency_type = models.CharField(choices=PRICE_CHOICES, max_length=20, default="Birr")
     job_adress = models.ForeignKey(JobAddress, on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
     post_photos = models.ManyToManyField(JobPostPhoto, related_name='jobs')
-    
     is_finished = models.BooleanField(default=False)
+    
     def __str__(self):
         return "job"
