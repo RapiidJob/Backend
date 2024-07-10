@@ -87,11 +87,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class EmployerProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer
-
     class Meta:
         model = EmployerProfile
-        fields = ('id', 'user', 'plan')
+        fields = ('id', 'plan')
     
     def create(self, validated_data):
         user_instance = self.context['request'].user 
@@ -120,11 +118,9 @@ class EmployerProfileSerializer(serializers.ModelSerializer):
 
 
 class WorkerProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer
-
     class Meta:
         model = WorkerProfile
-        fields = ('id', 'user', 'plan')
+        fields = ('id', 'plan')
         
     
     def create(self, validated_data):
@@ -132,7 +128,6 @@ class WorkerProfileSerializer(serializers.ModelSerializer):
         if user_instance.account_type != "Worker":
             return None
         validated_data.pop('user', {})
-        print("here")
         worker_instance = WorkerProfile.objects.create(user=user_instance, **validated_data)
         return worker_instance
 
