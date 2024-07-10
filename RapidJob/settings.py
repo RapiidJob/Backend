@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg', 
-     'corsheaders',
+    'corsheaders',
      
 
     
@@ -206,3 +206,6 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ASGI_APPLICATION = 'RapidJob.asgi.application'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
