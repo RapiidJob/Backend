@@ -1,11 +1,10 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import Job
-from .serializers import JobSerializer
+from .models import Job, JobAddress
+from .serializers import JobSerializer, JobAddressSerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
-from .models import JobAddress
 
 class JobCreateAPIView(generics.CreateAPIView):
     queryset = Job.objects.all()
@@ -38,8 +37,9 @@ class JobCreateAPIView(generics.CreateAPIView):
         else:
             job.job_adress = request.user.address
             job.save()
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        response = serializer.data
+        response['job_adress'] = JobAddressSerializer(instance=job.job_adress).data
+        return Response(response, status=status.HTTP_201_CREATED)
     
 class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Job.objects.all()
