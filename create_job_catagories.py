@@ -4,7 +4,6 @@ from django.db import transaction
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RapidJob.settings')
 django.setup()
 
-# Now you can import your models and add categories/subcategories
 from jobs.models import JobCategory, JobSubcategory
 
 categories = [

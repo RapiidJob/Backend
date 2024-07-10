@@ -33,7 +33,7 @@ class JobSerializer(serializers.ModelSerializer):
     )
     posted_by = serializers.PrimaryKeyRelatedField(read_only=True)
     job_address = JobAddressSerializer(required=False)
-    post_photos = JobPostPhotoSerializer(many=True, required=False)
+    post_photos = JobPostPhotoSerializer(many=True, required=False)  # This allows multiple photos
 
     class Meta:
         model = Job
@@ -43,7 +43,7 @@ class JobSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         job_address_data = validated_data.pop('job_address', None)
-        post_photos_data = validated_data.pop('post_photos', [])
+        post_photos_data = self.context['request'].FILES.getlist('post_photos')  # Handle multiple files
         
         job = Job.objects.create(**validated_data)
         
@@ -51,17 +51,17 @@ class JobSerializer(serializers.ModelSerializer):
             job_address = JobAddress.objects.create(**job_address_data)
             job.job_address = job_address
         
-        if post_photos_data:
-            for photo_data in post_photos_data:
-                post_photo = JobPostPhoto.objects.create(**photo_data)
-                job.post_photos.add(post_photo)
+        for photo_data in post_photos_data:
+            post_photo = JobPostPhoto.objects.create(image=photo_data)
+            job.post_photos.add(post_photo)
+        
         job.posted_by = user
         job.save()
         return job
 
     def update(self, instance, validated_data):
         job_address_data = validated_data.pop('job_address', None)
-        post_photos_data = validated_data.pop('post_photos', [])
+        post_photos_data = self.context['request'].FILES.getlist('post_photos')  # Handle multiple files
         
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -75,11 +75,10 @@ class JobSerializer(serializers.ModelSerializer):
                 job_address = JobAddress.objects.create(**job_address_data)
                 instance.job_address = job_address
         
-        if post_photos_data:
-            instance.post_photos.clear()
-            for photo_data in post_photos_data:
-                post_photo = JobPostPhoto.objects.create(**photo_data)
-                instance.post_photos.add(post_photo)
+        instance.post_photos.clear()  # Clear existing photos
+        for photo_data in post_photos_data:
+            post_photo = JobPostPhoto.objects.create(image=photo_data)
+            instance.post_photos.add(post_photo)
         
         instance.save()
         return instance

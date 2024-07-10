@@ -38,7 +38,7 @@ PRICE_CHOICES = (
         ("Birr", "Birr"), ("USD", "USD")
     )
 class Job(models.Model):
-    title = models.CharField(max_length=100, null=True, blank=True)
+    title = models.CharField(max_length=100)
     description = models.TextField()
     subcategory = models.ForeignKey(JobSubcategory, on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
     posted_by = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
@@ -51,4 +51,4 @@ class Job(models.Model):
     
     is_finished = models.BooleanField(default=False)
     def __str__(self):
-        return "job"
+        return "job_" + str(self.id) + " " + self.title

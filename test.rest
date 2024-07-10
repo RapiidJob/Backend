@@ -15,7 +15,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 POST http://localhost:8000/accounts/register/ HTTP/1.1
 content-type: application/json
 
-{"email": "abduu@gmail.com","account_type" : "Employer", "phone_number":"0994934835", "password": "1234", "gender":"Female", "first_name":"abdu", "middle_name": "hussen", "last_name": "Ali"}
+{"email": "abdulwahidhussen750@gmail.com","account_type" : "Employer", "phone_number":"0994934835", "password": "1234", "gender":"Female", "first_name":"abdu", "middle_name": "hussen", "last_name": "Ali"}
 
 ### user login requred fields
 ### email, password
@@ -27,13 +27,11 @@ content-type: application/json
 POST http://localhost:8000/accounts/login/ HTTP/1.1
 content-type: application/json
 
-{"email": "abdu@gmail.com", "password": "1234"}
+{"email": "abdulwahidhussen750@gmail.com", "password": "1234"}
 
 
 
 ###
-
-POST http://localhost:8000/auth/jwt/create/ HTTP/1.1
+GET http://localhost:8000/accounts/worker HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwMjY0ODQ0LCJpYXQiOjE3MjAwMDU2NDQsImp0aSI6IjVmZjBmMjMyYzljYjQ4MTc5YjY3Y2JmNmEzZmVmNzE3IiwidXNlcl9pZCI6NH0.URmafE9iwK02zhRyD2NpQBAiCbHMh5jQu9IQmQM5FrI
-{"email": "sgere195@gmail.com", "password": "123456789_"}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNTE4MDgwLCJpYXQiOjE3MjA1MTc3ODAsImp0aSI6ImJmOTRhN2IzMmI4YjQyY2Q5NjliNWMwN2M4MDBlMzI0IiwidXNlcl9pZCI6NH0.mrIrsDFRsuD1tDuOEu9s2mD1h4NOLdfZe3FVGsRHO6U
