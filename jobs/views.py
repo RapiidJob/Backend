@@ -12,9 +12,12 @@ class JobCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsEmployer]
 
     def create(self, request, *args, **kwargs):
+        # if request.user.account_type != "Employer":
+        #     return Response({"error": "Only employers can create jobs."}, status=status.HTTP_403_FORBIDDEN)
+        
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        job = serializer.save()
+        self.perform_create(serializer)
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -70,8 +73,6 @@ class SearchDefaultView(generics.GenericAPIView):
             Q(job_adress__region__icontains=address.region) &
             (Q(job_adress__city__icontains=address.city) | Q(job_adress__city__isnull=True))
             )
-
-
         if title and category:
             jobs = jobs.filter(
                 Q(subcategory__name__icontains=category) |
