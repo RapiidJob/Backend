@@ -88,9 +88,10 @@ class SearchDefaultView(generics.GenericAPIView):
 
         if not address:
             return Response({"error":"User addres is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
+        
         jobs = Job.objects.filter(
-            Q(job_adress__country__icontains=address.country) &
-            Q(job_adress__region__icontains=address.region) &
+            Q(job_adress__country__icontains=address.country) |
+            Q(job_adress__region__icontains=address.region) |
             (Q(job_adress__city__icontains=address.city) | Q(job_adress__city__isnull=True))
             )
         if title and category:
@@ -105,4 +106,41 @@ class SearchDefaultView(generics.GenericAPIView):
 
         serializer  = JobSerializer(jobs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class SearchByPlaceView(generics.GenericAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated, IsWorker]
+
+
+    def post(self, request, *args, **kwargs):
+        category = request.data.get('category')
+        title = request.data.get('title')
+        country = request.data.get('country')
+        region = request.data.get('region')
+        city = request.data.get('city')
+
+        jobs = Job.objects.filter(
+            Q(job_adress__country__icontains=country) |
+            Q(job_adress__region__icontains=region) |
+            (Q(job_adress__city__icontains=city) | Q(job_adress__city__isnull=True))
+        )
+        
+        if title and category:
+            jobs = jobs.filter(
+                Q(subcategory__name__icontains=category) |
+                Q(title__icontains=title)
+            )
+        elif title:
+            jobs = jobs.filter(Q(title__icontains=title))
+        elif category:
+            jobs=jobs.filter(Q(subcategory__name__icontains=category))
+        
+        serializer  = JobSerializer(jobs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+
+
+
+
 
