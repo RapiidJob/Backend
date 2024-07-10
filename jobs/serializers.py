@@ -5,6 +5,11 @@ class JobAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobAddress
         fields = '__all__'
+        read_only_fields = ('created_at', )
+        extra_kwargs = {
+            'latitude': {'required': False},
+            'longitude': {'required': False}
+        }
 
 class JobPostPhotoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,7 +38,7 @@ class JobSerializer(serializers.ModelSerializer):
     )
     posted_by = serializers.PrimaryKeyRelatedField(read_only=True)
     job_address = JobAddressSerializer(required=False)
-    post_photos = JobPostPhotoSerializer(many=True, required=False)  # This allows multiple photos
+    post_photos = JobPostPhotoSerializer(many=True, read_only=True, required=False)  # Read-only for listing photos
 
     class Meta:
         model = Job
@@ -44,18 +49,18 @@ class JobSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         job_address_data = validated_data.pop('job_address', None)
         post_photos_data = self.context['request'].FILES.getlist('post_photos')  # Handle multiple files
-        
-        job = Job.objects.create(**validated_data)
+        job = Job.objects.create(posted_by=user, **validated_data)
         
         if job_address_data:
             job_address = JobAddress.objects.create(**job_address_data)
             job.job_address = job_address
         
         for photo_data in post_photos_data:
-            post_photo = JobPostPhoto.objects.create(image=photo_data)
-            job.post_photos.add(post_photo)
-        
-        job.posted_by = user
+            created = JobPostPhoto.objects.create(image=photo_data)  
+            # Link photo to job
+            if created:
+                job.post_photos.add(created)
+
         job.save()
         return job
 
@@ -77,8 +82,7 @@ class JobSerializer(serializers.ModelSerializer):
         
         instance.post_photos.clear()  # Clear existing photos
         for photo_data in post_photos_data:
-            post_photo = JobPostPhoto.objects.create(image=photo_data)
-            instance.post_photos.add(post_photo)
+            JobPostPhoto.objects.create(job=instance, image=photo_data)  # Link photo to job
         
         instance.save()
         return instance

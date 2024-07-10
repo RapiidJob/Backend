@@ -11,12 +11,9 @@ class JobCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsEmployer]
 
     def create(self, request, *args, **kwargs):
-        # if request.user.account_type != "Employer":
-        #     return Response({"error": "Only employers can create jobs."}, status=status.HTTP_403_FORBIDDEN)
-        
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        job = serializer.save()
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -36,9 +33,9 @@ class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
         if request.user != instance.posted_by:
             return Response({"error": "You do not have permission to update this job."}, status=status.HTTP_403_FORBIDDEN)
         
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer = self.get_serializer(instance, data=request.data, partial=True, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        job = serializer.save()
         
         return Response(serializer.data)
 

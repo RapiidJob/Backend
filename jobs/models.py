@@ -13,11 +13,19 @@ class JobAddress(models.Model):
     is_permanent = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.city
+        strrep = self.country
+        if self.region:
+            strrep += " " + self.region
+        if self.city:
+            strrep += " " + self.city
+        if self.kebele:
+            strrep += " " + self.kebele
+        if self.house_number:
+            strrep += " " + self.house_number
+        return strrep
 
 class JobPostPhoto(models.Model):
     image = models.ImageField(upload_to='job_post_photos')
-    
 
 class JobCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -37,12 +45,16 @@ class JobSubcategory(models.Model):
 PRICE_CHOICES = (
         ("Birr", "Birr"), ("USD", "USD")
     )
+PAYEMENT_CHOICES = (
+    ("PerHour", "PerHour"), ("PerDay", "PerDay"), ("PerWeek", "PerWeek"), ("PerMonth", "PerMonth"), ("PerTask", "PerTask"),
+)
 
 class Job(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     subcategory = models.ForeignKey(JobSubcategory, on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
     posted_by = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
+    payement_choice = models.CharField(choices=PAYEMENT_CHOICES, max_length=20, default="PerTask")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     estimated_price = models.FloatField(null=True)
@@ -52,4 +64,5 @@ class Job(models.Model):
     is_finished = models.BooleanField(default=False)
     
     def __str__(self):
+        
         return "job_" + str(self.id) + " " + self.title
