@@ -6,6 +6,8 @@ from .serializers import JobSerializer, JobAddressSerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 
+import math
+
 class JobCreateAPIView(generics.CreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -138,6 +140,78 @@ class SearchByPlaceView(generics.GenericAPIView):
         
         serializer  = JobSerializer(jobs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371  
+    print(lat1, lat2)
+    lat1 = float(lat1)
+    lat2 = float(lat2)
+
+    lon1 = float(lon1)
+    lon2 = float(lon2)
+
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    delta_phi = math.radians(lat2 - lat1)
+    delta_lambda = math.radians(lon2 - lon1)
+    
+    a = math.sin(delta_phi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    
+    return R * c 
+
+
+class SearchbyLocationView(generics.GenericAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated, IsWorker]
+
+    def post(self, request, *args, **kwargs):
+        category = request.data.get('category', None)
+        title = request.data.get('title', None)
+        latitude = request.data.get('latitude')
+        longitude = request.data.get('latitude')
+        max_distance_km = 5000 # search by 5 km radius
+
+        jobs = Job.objects.all()
+        print(category, title)
+        if title and category:
+            jobs = jobs.filter(
+                Q(subcategory__name__icontains=category) |
+                Q(title__icontains=title)
+            )
+            
+        elif title:
+            jobs = jobs.filter(Q(title__icontains=title))
+        elif category:
+            jobs=jobs.filter(Q(subcategory__name__icontains=category))
+        
+        print(jobs)
+
+        def job_within_distance(job):
+            if job.job_address and job.job_address.latitude and job.job_address.longitude:
+                print('hi', job)
+                return haversine(latitude, longitude, float(job.job_address.latitude), float(job.job_address.longitude)) <= max_distance_km
+            return False
+        
+        jobs = list(filter(job_within_distance, jobs))
+        print(jobs)
+
+        serializer  = JobSerializer(jobs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        
+
+        
+        
+
+
+
+
+
+
+
+
         
 
 
