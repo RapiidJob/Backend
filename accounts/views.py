@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import CustomUser, EmployerProfile, WorkerProfile
-from .serializers import CustomUserRegisterSerializer, EmployerProfileSerializer, WorkerProfileSerializer, LoginSerializer, CustomUserSerializer
+from .serializers import ( CustomUserRegisterSerializer, EmployerProfileSerializer,
+                            WorkerProfileSerializer, LoginSerializer, 
+                            CustomUserSerializer, UserAddressSerializer)
 
 def password_reset_confirm_view(request, uid, token):
     return render(request, 'password_reset_confirm.html', {'uid': uid, 'token': token})
@@ -74,7 +76,6 @@ class EmployerProfileCreateAPIView(generics.CreateAPIView):
             "verification_type": request.data.get('verification_type', user_instance.verification_type),
             "verification_document": request.FILES.get('verification_document', user_instance.verification_document),
             "profile_image": request.FILES.get('profile_image', user_instance.profile_image),
-            # "address": 
             "account_type": user_instance.account_type,
             "is_identity_verified": user_instance.is_identity_verified,
             "is_email_verified": user_instance.is_email_verified,
@@ -82,6 +83,7 @@ class EmployerProfileCreateAPIView(generics.CreateAPIView):
             "rating": user_instance.rating,
             "created_at": user_instance.created_at,
         }
+        
         if user_data['account_type'] != 'Employer':
             raise ValueError("User is not an employer")
  
@@ -95,6 +97,26 @@ class EmployerProfileCreateAPIView(generics.CreateAPIView):
         else:
             print("User serializer errors:", user_serializer.errors)
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        
+        address_data = {
+            "country": request.data.get('address.country'),
+            "region": request.data.get('address.region'),
+            "city": request.data.get('address.city'),
+            "kebele": request.data.get('address.kebele'),
+            "house_number": request.data.get('address.house_number'),
+            "latitude": request.data.get('address.latitude'),
+            "longitude": request.data.get('address.longitude'),
+            "is_permanent": request.data.get('address.is_permanent'),
+        }
+        print("reached here?")
+        address_serializer = UserAddressSerializer(data=address_data)
+        address_serializer.is_valid(raise_exception=True)
+        address_instance = address_serializer.save()
+
+        # Link address to user instance
+        user_instance.address = address_instance
+        user_instance.save()
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -140,17 +162,35 @@ class WorkerProfileCreateAPIView(generics.CreateAPIView):
         }
         if user_data['account_type'] != 'Worker':
             raise ValueError("User is not an worker")
- 
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-
         user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
         if user_serializer.is_valid():
             user_serializer.save()
         else:
             print("User serializer errors:", user_serializer.errors)
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        address_data = {
+            "country": request.data.get('address.country'),
+            "region": request.data.get('address.region'),
+            "city": request.data.get('address.city'),
+            "kebele": request.data.get('address.kebele'),
+            "house_number": request.data.get('address.house_number'),
+            "latitude": request.data.get('address.latitude'),
+            "longitude": request.data.get('address.longitude'),
+            "is_permanent": request.data.get('address.is_permanent'),
+        }
+
+        address_serializer = UserAddressSerializer(data=address_data)
+        address_serializer.is_valid(raise_exception=True)
+        address_instance = address_serializer.save()
+
+        # Link address to user instance
+        user_instance.address = address_instance
+        user_instance.save()
+       
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
