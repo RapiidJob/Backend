@@ -1,8 +1,8 @@
 import requests
 from getpass import getpass
 
-token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNTQzMDQwLCJpYXQiOjE3MjA1NDEyNDAsImp0aSI6IjFmOTYwN2E2MGVmNjRkNzA4ZWU4M2QyNTM2MDViMGZlIiwidXNlcl9pZCI6MjR9.vEILCtF4uk0mc2-qctbyCbNiF3UhMbFNWEYRd-LAKBA"
-endpoint = " http://localhost:8000/accounts/worker/create/"
+token =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNjEyMjQ1LCJpYXQiOjE3MjA2MTA0NDUsImp0aSI6ImMzNDUwOWQ2ZjVlNzQ5MmVhNzU0YzYzYTM1OTI2NjcxIiwidXNlcl9pZCI6Mjh9.SJl3T6oWG9Ui287y1OaUKuxPrueeRK0ErOksw2jo1a8"
+endpoint = " http://localhost:8000/accounts/employer/create/"
 default_address = {
     "country": "Ethiopia",
     "region": "Addis Ababa",
@@ -13,20 +13,30 @@ default_address = {
     "longitude": 38.74,  # Example longitude value
     "is_permanent": True
 }
-data =  {"email": "123@gmail.com","account_type" : "Worker", "phone_number":"123456789", "password": "123456789_", "gender":"Female", "first_name":"abdu", "middle_name": "hussen", "last_name": "Ali", "user":24}
-data.update({
-    "birth_date": None,  # Not provided in the data
-    "verification_type": None,  # Not provided in the data
-    "is_identity_verified": False,  # Default assumption
-    "is_email_verified": False,  # Default assumption
-    "is_phone_verified": False,  # Default assumption
-    "rating": None,  # Not provided in the data
-    "created_at": None,  # Not provided in the data
-})
+
+data = {
+    "email": "feben@gmail.com",
+    "account_type": "Employer",
+    "phone_number": "123456789",
+    "password": "123456789_",
+    "gender": "Female",
+    "first_name": "abdu",
+    "middle_name": "hussen",
+    "last_name": "Ali",
+    "address.country": "Ethiopia",
+    "address.region": "Addis Ababa",
+    "address.city": "Addis Ababa",
+    "address.kebele": "01",
+    "address.house_number": "123",
+    "address.latitude": 9.03,  # Example latitude value
+    "address.longitude": 38.74,  # Example longitude value
+    "address.is_permanent": True,
+    "user": 28,
+}
 
 files = {
-    'profile_image' : open(r"C:/Users/user/Pictures/associative.png", "rb"), # path for picture
-    'verification_document' : open(r"C:/Users/user/Pictures/associative.png", "rb") # path for Verification document
+    'profile_image' : open(r"C:/Users/user/Pictures/search2.png", "rb"), # path for picture
+    'verification_document' : open(r"C:/Users/user/Pictures/search1.png", "rb") # path for Verification document
 }
 
 headers = {
