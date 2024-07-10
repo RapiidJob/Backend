@@ -97,19 +97,19 @@ class EmployerProfileCreateAPIView(generics.CreateAPIView):
         else:
             print("User serializer errors:", user_serializer.errors)
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print("reached here?")
 
         
         address_data = {
-            "country": request.data.get('address.country'),
-            "region": request.data.get('address.region'),
-            "city": request.data.get('address.city'),
-            "kebele": request.data.get('address.kebele'),
-            "house_number": request.data.get('address.house_number'),
-            "latitude": request.data.get('address.latitude'),
-            "longitude": request.data.get('address.longitude'),
-            "is_permanent": request.data.get('address.is_permanent'),
+            "country": request.data.get('country'),
+            "region": request.data.get('region'),
+            "city": request.data.get('city'),
+            "kebele": request.data.get('kebele'),
+            "house_number": request.data.get('house_number'),
+            "latitude": request.data.get('latitude'),
+            "longitude": request.data.get('longitude'),
+            "is_permanent": request.data.get('is_permanent'),
         }
-        print("reached here?")
         address_serializer = UserAddressSerializer(data=address_data)
         address_serializer.is_valid(raise_exception=True)
         address_instance = address_serializer.save()
@@ -171,18 +171,18 @@ class WorkerProfileCreateAPIView(generics.CreateAPIView):
         else:
             print("User serializer errors:", user_serializer.errors)
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        
         address_data = {
-            "country": request.data.get('address.country'),
-            "region": request.data.get('address.region'),
-            "city": request.data.get('address.city'),
-            "kebele": request.data.get('address.kebele'),
-            "house_number": request.data.get('address.house_number'),
-            "latitude": request.data.get('address.latitude'),
-            "longitude": request.data.get('address.longitude'),
-            "is_permanent": request.data.get('address.is_permanent'),
+            "country": request.data.get('country'),
+            "region": request.data.get('region'),
+            "city": request.data.get('city'),
+            "kebele": request.data.get('kebele'),
+            "house_number": request.data.get('house_number'),
+            "latitude": request.data.get('latitude'),
+            "longitude": request.data.get('longitude'),
+            "is_permanent": request.data.get('is_permanent'),
         }
-
+        print(address_data)
         address_serializer = UserAddressSerializer(data=address_data)
         address_serializer.is_valid(raise_exception=True)
         address_instance = address_serializer.save()
