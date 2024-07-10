@@ -59,7 +59,7 @@ class Job(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     estimated_price = models.FloatField(null=True)
     currency_type = models.CharField(choices=PRICE_CHOICES, max_length=20, default="Birr")
-    job_adress = models.ForeignKey(JobAddress, on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
+    job_address = models.ForeignKey(JobAddress, on_delete=models.CASCADE, related_name='jobs', null=True, blank=True)
     post_photos = models.ManyToManyField(JobPostPhoto, related_name='jobs')
     is_finished = models.BooleanField(default=False)
     

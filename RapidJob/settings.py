@@ -88,12 +88,10 @@ SIMPLE_JWT = {
 }
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
+    "default": {
+        "BACKEND":
+      "channels.layers.InMemoryChannelLayer",
+    }
 }
 #postgresql://forrapidjob_user:7IOs3crixpsOPKC8sIcmVZViA1ktRFML@dpg-cq6138qju9rs73dv2gs0-a.oregon-postgres.render.com/forrapidjob
 
