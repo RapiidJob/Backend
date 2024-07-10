@@ -56,7 +56,6 @@ class CustomUserRegisterSerializer(serializers.ModelSerializer):
 
 #address and other user details is created when user is updated
 class CustomUserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomUser
         fields = ('id', 'email', 'first_name', 'last_name', 'birth_date', 'gender', 'phone_number',
@@ -83,6 +82,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             else:
                 created = UserAddress.objects.create(**address_data)
                 instance.address = created
+                instance.save()
         return instance
 
 
@@ -134,7 +134,6 @@ class WorkerProfileSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', {})
         user_instance = instance.user  # Retrieve current user from Workers instance
-
         # Update user instance with provided data
         user_serializer = CustomUserSerializer(instance=user_instance, data=user_data, partial=True)
         if user_serializer.is_valid():
