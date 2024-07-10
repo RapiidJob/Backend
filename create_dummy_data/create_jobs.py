@@ -15,7 +15,7 @@ user_data = {
     'first_name': 'abdu',
     'middle_name': 'hussen',
     'last_name': 'Ali',
-    'email': 'testuser@example.com',
+    'email': 'testuser1@example.com',
     'account_type': "Employer",
 }
 
