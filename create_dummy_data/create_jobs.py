@@ -11,11 +11,11 @@ REGISTRATION_URL = 'http://127.0.0.1:8000/accounts/register/'
 user_data = {
     'phone_number': '123456789',
     'password': '123456789_',
-    'gender': 'Female',
+    'gender': 'Female', 
     'first_name': 'abdu',
     'middle_name': 'hussen',
     'last_name': 'Ali',
-    'email': 'abduhusfino0@gmail.com',
+    'email': 'abdxjbdkpoccuoery0@ysklgjftmbail.com',
     'account_type': "Employer",
 }
 
@@ -50,46 +50,44 @@ if registration_response.status_code == 201:
 
     # Dummy data for jobs
     dummy_jobs = [
+        
         {
             'title': 'Plumber Needed',
             'description': 'Looking for an experienced plumber to fix leaky pipes.',
             'subcategory_id': 1,  # Replace with actual subcategory ID
-            'job_address': {
-                'address': '123 Main St',
+                'country': 'Ethiopia',
                 'city': 'Addis Ababa',
-                'state': 'Addis Ababa',
-                'zip_code': '1000',
+                'region': 'Addis Ababa',
                 'latitude': 9.02045,
-                'longitude': 38.75278
-            },
+                'longitude': 38.75278,
+                
             'post_photos': [
                 {
-                    'image': open(r'C:/Users/Abdi/Downloads/test.png', 'rb')  # Replace with actual photo file path
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
                 },
                 {
-                    'image': open(r'C:/Users/Abdi/Downloads/test.png', 'rb')  # Replace with actual photo file path
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
                 }
             ],
-            'is_finished': False
+            'is_finished': False,
+            "use_my_address": False
         },
         {
             'title': 'Electrician Needed',
             'description': 'Electrical wiring repair needed for a residential building.',
             'subcategory_id': 2,  # Replace with actual subcategory ID
-            'job_address': {
-                'address': '456 Elm St',
-                'city': 'Adama',
-                'state': 'Addis Ababa',
-                'zip_code': '2000',
-                'latitude': 8.53533,
-                'longitude': 39.26487
-            },
+                'country': 'Ethiopia',
+                'city': 'Addis Ababa',
+                'region': 'Addis Ababa',
+                'latitude': 9.02045,
+                'longitude': 38.75278,
             'post_photos': [
                 {
-                    'image': open(r'C:/Users/Abdi/Downloads/test.png', 'rb')  # Replace with actual photo file path
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
                 }
             ],
-            'is_finished': False
+            'is_finished': False,
+            "use_my_address": False
         },
     ]
 

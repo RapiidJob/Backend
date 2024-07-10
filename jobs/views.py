@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import Job
 from .serializers import JobSerializer
 from RapidJob.permissions import IsEmployer, IsWorker
+from .models import JobAddress
 
 class JobCreateAPIView(generics.CreateAPIView):
     queryset = Job.objects.all()
@@ -14,9 +15,28 @@ class JobCreateAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         job = serializer.save()
-        
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if request.data.get("use_my_address") == 'False':
+            city = request.data.get("city", None)
+            country = request.data.get("country", None)
+            region = request.data.get("region", None)
+            latitude = request.data.get("latitude", None)
+            longitude = request.data.get("longitude", None)
+            address  = JobAddress.objects.create(
+                city=city,
+                country=country, 
+                region=region,
+                latitude=latitude,
+                longitude=longitude,
+                
+            )
+            job.job_adress = address
+            job.save()
+        else:
+            job.job_adress = request.user.address
+            job.save()
 
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
 class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
