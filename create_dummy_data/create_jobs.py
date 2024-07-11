@@ -5,7 +5,7 @@ import requests
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # API endpoint for creating jobs (replace with your actual endpoint)
-REGISTRATION_URL = 'http://127.0.0.1:8000/accounts/register/'
+REGISTRATION_URL = 'http://127.0.0.1:8000/api/accounts/register/'
 
 # User data and profile file
 user_data = {
@@ -15,7 +15,7 @@ user_data = {
     'first_name': 'abdu',
     'middle_name': 'hussen',
     'last_name': 'Ali',
-    'email': 'test@example.com',
+    'email': 'tedtst@exafmncple.com',
     'account_type': "Employer",
 }
 
@@ -30,7 +30,7 @@ registration_response = requests.post(REGISTRATION_URL, data=user_data)
 print(registration_response.json())
 
 if registration_response.status_code == 201:
-    employer_profile_url = "http://127.0.0.1:8000/accounts/employer/create/"
+    employer_profile_url = "http://127.0.0.1:8000/api/accounts/employer/create/"
     token = registration_response.json()['token']['access']
     
     employer_data = {
@@ -43,7 +43,7 @@ if registration_response.status_code == 201:
 
 
 
-API_URL = 'http://127.0.0.1:8000/jobs/create/'
+API_URL = 'http://127.0.0.1:8000/api/jobs/create/'
 
 if registration_response.status_code == 201:
     BEARER_TOKEN = registration_response.json()['token']['access']

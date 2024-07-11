@@ -6,7 +6,7 @@ from .serializers import JobSerializer, JobAddressSerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
-import math
+from .utils import *
 
 class JobCreateAPIView(generics.CreateAPIView):
     queryset = Job.objects.all()
@@ -17,29 +17,29 @@ class JobCreateAPIView(generics.CreateAPIView):
         try:
             serializer = self.get_serializer(data=request.data, context={'request': request})
             serializer.is_valid(raise_exception=True)
-            job = serializer.save()
-
+            
             if request.data.get("use_my_address") == 'False':
                 city = request.data.get("city", None)
                 country = request.data.get("country", None)
                 region = request.data.get("region", None)
                 latitude = request.data.get("latitude", None)
                 longitude = request.data.get("longitude", None)
-                address = JobAddress.objects.create(
+                job_address = JobAddress.objects.create(
                     city=city,
                     country=country, 
                     region=region,
                     latitude=latitude,
                     longitude=longitude,
                 )
-                job.job_adress = address
-                job.save()
             else:
-                job.job_adress = request.user.address
-                job.save()
-
+                if not request.user.address:
+                    return Response({"message" : "you dont have address information"}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    job_address = create_job_address_from_user(request.user)
+            
+            job = serializer.save(job_address = job_address)
             response = serializer.data
-            response['job_adress'] = JobAddressSerializer(instance=job.job_adress).data
+            response['job_adress'] = JobAddressSerializer(instance=job.job_address).data
             return Response(response, status=status.HTTP_201_CREATED)
         
         except ValidationError as e:
@@ -182,24 +182,7 @@ class SearchByPlaceView(generics.GenericAPIView):
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-def haversine(lat1, lon1, lat2, lon2):
-    R = 6371  
-    print(lat1, lat2)
-    lat1 = float(lat1)
-    lat2 = float(lat2)
 
-    lon1 = float(lon1)
-    lon2 = float(lon2)
-
-    phi1 = math.radians(lat1)
-    phi2 = math.radians(lat2)
-    delta_phi = math.radians(lat2 - lat1)
-    delta_lambda = math.radians(lon2 - lon1)
-    
-    a = math.sin(delta_phi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2) ** 2
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    
-    return R * c 
 
 class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()
