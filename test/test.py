@@ -1,8 +1,9 @@
 import requests
 from getpass import getpass
 
-token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwOTMzMjQxLCJpYXQiOjE3MjA2MzMyNDEsImp0aSI6IjVkOGFmZWQwZjIyMTRmOGNhMzIwOWNjMjlhYmI2MTdiIiwidXNlcl9pZCI6NX0.ZnhlP5kMCEu46KUxylKzYZJGcL3j53etp3Z0frucrhQ"
-endpoint = " http://localhost:8000/accounts/worker/create/"
+token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIxMDE1MjgxLCJpYXQiOjE3MjA3MTUyODEsImp0aSI6IjNmYWMxMzVhN2QyNjRhZjM5NmM1NWE5ZmY3ZWFhMTBhIiwidXNlcl9pZCI6M30.q_iGWhHDl5V_DAMU8NE0gGSbMiHukhNUGJkZkqR-9t4"
+endpoint = " http://localhost:8000/api/accounts/worker/create/"
+
 data =  {
     "email": "feben@gmail.com",
     "account_type": "Worker",

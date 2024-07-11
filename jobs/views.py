@@ -7,6 +7,7 @@ from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
 from .utils import *
+from RapidJob import pagination
 
 class JobCreateAPIView(generics.CreateAPIView):
     queryset = Job.objects.all()
@@ -141,13 +142,17 @@ class SearchDefaultView(generics.GenericAPIView):
             jobs = jobs.filter(Q(title__icontains=title))
         elif category:
             jobs=jobs.filter(Q(subcategory__name__icontains=category))
-
-        serializer  = JobSerializer(jobs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        paginator = pagination.StandardPageNumberPagination()
+        paginated_jobs = paginator.paginate_queryset(jobs, request)
+        serializer = JobSerializer(paginated_jobs, many=True)
+        return paginator.get_paginated_response(serializer.data)
+    
 class SearchByPlaceView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = pagination.StandardPageNumberPagination
 
     def post(self, request, *args, **kwargs):
         category = request.data.get('category')
@@ -163,7 +168,7 @@ class SearchByPlaceView(generics.GenericAPIView):
             jobs = Job.objects.filter(
                 Q(job_address__country__icontains=country) |
                 Q(job_address__region__icontains=region) |
-                (Q(job_address__city__icontains=city) | Q(job_address__city__isnull=True))
+                (Q(job_address__city__icontains=city) & Q(job_address__city__isnull=True))
             )
             
             if title and category:
@@ -176,8 +181,10 @@ class SearchByPlaceView(generics.GenericAPIView):
             elif category:
                 jobs = jobs.filter(Q(subcategory__name__icontains=category))
             
-            serializer = JobSerializer(jobs, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            paginator = pagination.StandardPageNumberPagination()
+            paginated_jobs = paginator.paginate_queryset(jobs, request)
+            serializer = JobSerializer(paginated_jobs, many=True)
+            return paginator.get_paginated_response(serializer.data)
         
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -188,13 +195,14 @@ class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = pagination.StandardPageNumberPagination
 
     def post(self, request, *args, **kwargs):
         category = request.data.get('category', None)
         title = request.data.get('title', None)
         latitude = request.data.get('latitude')
         longitude = request.data.get('longitude')
-        max_distance_km = 5  # search within 5 km radius
+        max_distance_km = 5000  # search within 5 km radius
 
         try:
             if not latitude or not longitude:
@@ -219,8 +227,10 @@ class SearchbyLocationView(generics.GenericAPIView):
             
             jobs = list(filter(job_within_distance, jobs))
 
-            serializer = JobSerializer(jobs, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            paginator = pagination.StandardPageNumberPagination()
+            paginated_jobs = paginator.paginate_queryset(jobs, request)
+            serializer = JobSerializer(paginated_jobs, many=True)
+            return paginator.get_paginated_response(serializer.data)
         
         except ValueError:
             return Response({"errors": "Invalid latitude or longitude values."}, status=status.HTTP_400_BAD_REQUEST)

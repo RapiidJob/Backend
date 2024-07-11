@@ -25,8 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  os.environ.get("SECRET_KEY")
-# 'django-insecure-75f)&#u(1+7qbxaq*d+-l%4ek#ei3^)wzam9g22tpl(^=1arsu'
+SECRET_KEY = os.environ.get("SECRET_KEY")  # 'django-insecure-75f)&#u(1+7qbxaq*d+-l%4ek#ei3^)wzam9g22tpl(^=1arsu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  os.environ.get("DEBUG", "False").lower() == "true"
@@ -77,6 +76,8 @@ REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5,
 }
 
 from datetime import timedelta

@@ -34,11 +34,12 @@ class JobSerializer(serializers.ModelSerializer):
     )
     posted_by = serializers.PrimaryKeyRelatedField(read_only=True)
     post_photos = JobPostPhotoSerializer(many=True, read_only=True, required=False)
+    job_address = JobAddressSerializer(read_only=True)
 
     class Meta:
         model = Job
         fields = ['id', 'title', 'description', 'subcategory', 'subcategory_id', 'posted_by', 
-                  'created_at', 'updated_at', 'post_photos', 'is_finished']
+                  'created_at', 'updated_at', 'post_photos', 'is_finished', 'job_address']
 
     def create(self, validated_data):
         user = self.context['request'].user
