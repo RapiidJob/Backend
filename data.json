@@ -1,0 +1,1668 @@
+[
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2024-07-10T17:39:38.861Z",
+            "user": 3,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "feben@gmail.com",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Account type\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2024-07-10T17:39:50.525Z",
+            "user": 3,
+            "content_type": 7,
+            "object_id": "4",
+            "object_repr": "feben@gmail.com",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2024-07-10T17:41:46.314Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "2",
+            "object_repr": "WorkerProfile object (2)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2024-07-10T17:42:02.097Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "3",
+            "object_repr": "WorkerProfile object (3)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2024-07-10T17:42:36.445Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "4",
+            "object_repr": "WorkerProfile object (4)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2024-07-10T17:44:46.117Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "5",
+            "object_repr": "WorkerProfile object (5)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 7,
+        "fields": {
+            "action_time": "2024-07-10T17:45:54.111Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "6",
+            "object_repr": "WorkerProfile object (6)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 8,
+        "fields": {
+            "action_time": "2024-07-10T17:46:57.082Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "7",
+            "object_repr": "WorkerProfile object (7)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 9,
+        "fields": {
+            "action_time": "2024-07-10T17:47:51.648Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "8",
+            "object_repr": "WorkerProfile object (8)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 10,
+        "fields": {
+            "action_time": "2024-07-10T17:48:22.191Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "9",
+            "object_repr": "WorkerProfile object (9)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 11,
+        "fields": {
+            "action_time": "2024-07-10T17:48:52.768Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "10",
+            "object_repr": "WorkerProfile object (10)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 12,
+        "fields": {
+            "action_time": "2024-07-10T17:52:19.313Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "11",
+            "object_repr": "WorkerProfile object (11)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 13,
+        "fields": {
+            "action_time": "2024-07-10T17:53:53.284Z",
+            "user": 3,
+            "content_type": 9,
+            "object_id": "12",
+            "object_repr": "WorkerProfile object (12)",
+            "action_flag": 3,
+            "change_message": ""
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 4,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 4,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 4,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 4,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 5,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 5,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 5,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 5,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add user address",
+            "content_type": 6,
+            "codename": "add_useraddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change user address",
+            "content_type": 6,
+            "codename": "change_useraddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete user address",
+            "content_type": 6,
+            "codename": "delete_useraddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view user address",
+            "content_type": 6,
+            "codename": "view_useraddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add custom user",
+            "content_type": 7,
+            "codename": "add_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change custom user",
+            "content_type": 7,
+            "codename": "change_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete custom user",
+            "content_type": 7,
+            "codename": "delete_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view custom user",
+            "content_type": 7,
+            "codename": "view_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add employer profile",
+            "content_type": 8,
+            "codename": "add_employerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change employer profile",
+            "content_type": 8,
+            "codename": "change_employerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete employer profile",
+            "content_type": 8,
+            "codename": "delete_employerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view employer profile",
+            "content_type": 8,
+            "codename": "view_employerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add worker profile",
+            "content_type": 9,
+            "codename": "add_workerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change worker profile",
+            "content_type": 9,
+            "codename": "change_workerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete worker profile",
+            "content_type": 9,
+            "codename": "delete_workerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view worker profile",
+            "content_type": 9,
+            "codename": "view_workerprofile"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 37,
+        "fields": {
+            "name": "Can add job category",
+            "content_type": 10,
+            "codename": "add_jobcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 38,
+        "fields": {
+            "name": "Can change job category",
+            "content_type": 10,
+            "codename": "change_jobcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 39,
+        "fields": {
+            "name": "Can delete job category",
+            "content_type": 10,
+            "codename": "delete_jobcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 40,
+        "fields": {
+            "name": "Can view job category",
+            "content_type": 10,
+            "codename": "view_jobcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 41,
+        "fields": {
+            "name": "Can add job subcategory",
+            "content_type": 11,
+            "codename": "add_jobsubcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 42,
+        "fields": {
+            "name": "Can change job subcategory",
+            "content_type": 11,
+            "codename": "change_jobsubcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 43,
+        "fields": {
+            "name": "Can delete job subcategory",
+            "content_type": 11,
+            "codename": "delete_jobsubcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 44,
+        "fields": {
+            "name": "Can view job subcategory",
+            "content_type": 11,
+            "codename": "view_jobsubcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 45,
+        "fields": {
+            "name": "Can add job address",
+            "content_type": 12,
+            "codename": "add_jobaddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 46,
+        "fields": {
+            "name": "Can change job address",
+            "content_type": 12,
+            "codename": "change_jobaddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 47,
+        "fields": {
+            "name": "Can delete job address",
+            "content_type": 12,
+            "codename": "delete_jobaddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 48,
+        "fields": {
+            "name": "Can view job address",
+            "content_type": 12,
+            "codename": "view_jobaddress"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 49,
+        "fields": {
+            "name": "Can add job post photo",
+            "content_type": 13,
+            "codename": "add_jobpostphoto"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 50,
+        "fields": {
+            "name": "Can change job post photo",
+            "content_type": 13,
+            "codename": "change_jobpostphoto"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 51,
+        "fields": {
+            "name": "Can delete job post photo",
+            "content_type": 13,
+            "codename": "delete_jobpostphoto"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 52,
+        "fields": {
+            "name": "Can view job post photo",
+            "content_type": 13,
+            "codename": "view_jobpostphoto"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 53,
+        "fields": {
+            "name": "Can add job",
+            "content_type": 14,
+            "codename": "add_job"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 54,
+        "fields": {
+            "name": "Can change job",
+            "content_type": 14,
+            "codename": "change_job"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 55,
+        "fields": {
+            "name": "Can delete job",
+            "content_type": 14,
+            "codename": "delete_job"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 56,
+        "fields": {
+            "name": "Can view job",
+            "content_type": 14,
+            "codename": "view_job"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 57,
+        "fields": {
+            "name": "Can add messages",
+            "content_type": 15,
+            "codename": "add_messages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 58,
+        "fields": {
+            "name": "Can change messages",
+            "content_type": 15,
+            "codename": "change_messages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 59,
+        "fields": {
+            "name": "Can delete messages",
+            "content_type": 15,
+            "codename": "delete_messages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 60,
+        "fields": {
+            "name": "Can view messages",
+            "content_type": 15,
+            "codename": "view_messages"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 61,
+        "fields": {
+            "name": "Can add application",
+            "content_type": 16,
+            "codename": "add_application"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 62,
+        "fields": {
+            "name": "Can change application",
+            "content_type": 16,
+            "codename": "change_application"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 63,
+        "fields": {
+            "name": "Can delete application",
+            "content_type": 16,
+            "codename": "delete_application"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 64,
+        "fields": {
+            "name": "Can view application",
+            "content_type": 16,
+            "codename": "view_application"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 65,
+        "fields": {
+            "name": "Can add work history",
+            "content_type": 17,
+            "codename": "add_workhistory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 66,
+        "fields": {
+            "name": "Can change work history",
+            "content_type": 17,
+            "codename": "change_workhistory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 67,
+        "fields": {
+            "name": "Can delete work history",
+            "content_type": 17,
+            "codename": "delete_workhistory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 68,
+        "fields": {
+            "name": "Can view work history",
+            "content_type": 17,
+            "codename": "view_workhistory"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "accounts",
+            "model": "useraddress"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "accounts",
+            "model": "customuser"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "accounts",
+            "model": "employerprofile"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "accounts",
+            "model": "workerprofile"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 10,
+        "fields": {
+            "app_label": "jobs",
+            "model": "jobcategory"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 11,
+        "fields": {
+            "app_label": "jobs",
+            "model": "jobsubcategory"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 12,
+        "fields": {
+            "app_label": "jobs",
+            "model": "jobaddress"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 13,
+        "fields": {
+            "app_label": "jobs",
+            "model": "jobpostphoto"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 14,
+        "fields": {
+            "app_label": "jobs",
+            "model": "job"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 15,
+        "fields": {
+            "app_label": "notifications",
+            "model": "messages"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 16,
+        "fields": {
+            "app_label": "applications",
+            "model": "application"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 17,
+        "fields": {
+            "app_label": "applications",
+            "model": "workhistory"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "jjfxccveu5ryk62ti9obi7v00zmp2jt5",
+        "fields": {
+            "session_data": ".eJxVjL0OAiEQhN-F2hAW5CeW9j4DWdhFTg0kx11lfHfvkiu0mWK-b-YtIq5LjevgOU4kLsKI02-XMD-57YAe2O5d5t6WeUpyV-RBh7x14tf1cP8OKo66rR1b58_AZgunlbdJFwSVqGgVSLOFYgyDZSo-OYXehGIz2gzkQ4AsPl_JVTeb:1sRbHq:cNDpPfAVr_LX2Xed2U6SXI0hPyz2n1d6Lmm2k57F1oQ",
+            "expire_date": "2024-07-24T17:39:26.586Z"
+        }
+    },
+    {
+        "model": "accounts.useraddress",
+        "pk": 1,
+        "fields": {
+            "created_at": "2024-07-10T17:54:00.631Z",
+            "country": "Ethiopia",
+            "region": "Addis Ababa",
+            "city": "Addis Ababa",
+            "kebele": "01",
+            "house_number": "123",
+            "latitude": "9.030000",
+            "longitude": "38.740000",
+            "is_permanent": true
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$pN8hNnU9Qyalopv01YABNJ$kXg4ItaMkwOV5U+PIhxT2pHwKjIrKX2nIc0lU5kWD88=",
+            "last_login": null,
+            "is_superuser": false,
+            "created_at": "2024-07-10T16:19:46.380Z",
+            "email": "testuser@example.com",
+            "account_type": "Employer",
+            "first_name": "abdu",
+            "middle_name": "hussen",
+            "last_name": "Ali",
+            "phone_number": "123456789",
+            "birth_date": null,
+            "gender": null,
+            "profile_image": "profile_images/profile.png",
+            "is_identity_verified": false,
+            "verification_type": null,
+            "verification_document": "verification_documents/jobpost.png",
+            "rating": 0,
+            "is_email_verified": false,
+            "is_phone_verified": false,
+            "address": null,
+            "is_active": true,
+            "is_staff": false,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$kko0vBPyTyKUDpiCGS3JhG$48Dd9RIYqeCnCgKS/XSPIAG+RpeqRgB1LBxueaYTsAM=",
+            "last_login": null,
+            "is_superuser": false,
+            "created_at": "2024-07-10T16:25:57.355Z",
+            "email": "samuel.geremew@a2sv.org",
+            "account_type": "Worker",
+            "first_name": "abdu",
+            "middle_name": "",
+            "last_name": "Ali",
+            "phone_number": "123456789",
+            "birth_date": null,
+            "gender": "Female",
+            "profile_image": "profile_images/associative.png",
+            "is_identity_verified": false,
+            "verification_type": null,
+            "verification_document": "verification_documents/associative.png",
+            "rating": 0,
+            "is_email_verified": false,
+            "is_phone_verified": false,
+            "address": null,
+            "is_active": true,
+            "is_staff": false,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$I1M9pIHe8WSc6hgXoigoEc$cMJookr3cO5nU0s2Ow6pWo3OfFLM2VSNztMD+HoxiFg=",
+            "last_login": "2024-07-10T17:39:26.579Z",
+            "is_superuser": true,
+            "created_at": "2024-07-10T17:37:36.322Z",
+            "email": "sgere195@gmail.com",
+            "account_type": "Worker",
+            "first_name": null,
+            "middle_name": null,
+            "last_name": null,
+            "phone_number": null,
+            "birth_date": null,
+            "gender": null,
+            "profile_image": "",
+            "is_identity_verified": false,
+            "verification_type": null,
+            "verification_document": "",
+            "rating": 0,
+            "is_email_verified": false,
+            "is_phone_verified": false,
+            "address": null,
+            "is_active": true,
+            "is_staff": true,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 5,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$6gkmkmTFkflF4qd4H5i20P$SELxoDatU6AZ7AGXYBJ2pb3HyPkFd6sNAuTD7TIK2P4=",
+            "last_login": null,
+            "is_superuser": false,
+            "created_at": "2024-07-10T17:40:30.698Z",
+            "email": "feben@gmail.com",
+            "account_type": "Worker",
+            "first_name": "abdu",
+            "middle_name": "",
+            "last_name": "Ali",
+            "phone_number": "123456789",
+            "birth_date": null,
+            "gender": "Female",
+            "profile_image": "profile_images/associative_DXHc86J.png",
+            "is_identity_verified": false,
+            "verification_type": null,
+            "verification_document": "verification_documents/associative_pOu7xzf.png",
+            "rating": 0,
+            "is_email_verified": false,
+            "is_phone_verified": false,
+            "address": 1,
+            "is_active": true,
+            "is_staff": false,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.customuser",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$PSgAYwJt19ilLwT77FKVkD$qdopxoyGq4EG+uvH1C0lcQWh1ehcCE8BNjGfQ5K7lvY=",
+            "last_login": null,
+            "is_superuser": false,
+            "created_at": "2024-07-10T17:56:02.055Z",
+            "email": "test@example.com",
+            "account_type": "Employer",
+            "first_name": "abdu",
+            "middle_name": "hussen",
+            "last_name": "Ali",
+            "phone_number": "123456789",
+            "birth_date": null,
+            "gender": null,
+            "profile_image": "profile_images/profile_eeZTsOO.png",
+            "is_identity_verified": false,
+            "verification_type": null,
+            "verification_document": "verification_documents/jobpost_rdkryyy.png",
+            "rating": 0,
+            "is_email_verified": false,
+            "is_phone_verified": false,
+            "address": null,
+            "is_active": true,
+            "is_staff": false,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "accounts.workerprofile",
+        "pk": 1,
+        "fields": {
+            "created_at": "2024-07-10T16:28:38.835Z",
+            "user": 2,
+            "plan": "Free",
+            "last_applied": null,
+            "last_paid": null,
+            "prefered_job_categories": []
+        }
+    },
+    {
+        "model": "accounts.workerprofile",
+        "pk": 13,
+        "fields": {
+            "created_at": "2024-07-10T17:54:00.521Z",
+            "user": 5,
+            "plan": "Free",
+            "last_applied": null,
+            "last_paid": null,
+            "prefered_job_categories": []
+        }
+    },
+    {
+        "model": "accounts.employerprofile",
+        "pk": 1,
+        "fields": {
+            "created_at": "2024-07-10T16:19:46.427Z",
+            "user": 1,
+            "plan": "Normal",
+            "last_paid": null
+        }
+    },
+    {
+        "model": "accounts.employerprofile",
+        "pk": 2,
+        "fields": {
+            "created_at": "2024-07-10T17:56:02.105Z",
+            "user": 6,
+            "plan": "Normal",
+            "last_paid": null
+        }
+    },
+    {
+        "model": "jobs.jobaddress",
+        "pk": 1,
+        "fields": {
+            "country": "Ethiopia",
+            "region": "Addis Ababa",
+            "city": "Addis Ababa",
+            "kebele": null,
+            "house_number": null,
+            "latitude": "9.020450",
+            "longitude": "38.752780",
+            "is_permanent": true
+        }
+    },
+    {
+        "model": "jobs.jobaddress",
+        "pk": 2,
+        "fields": {
+            "country": "Ethiopia",
+            "region": "Addis Ababa",
+            "city": "Addis Ababa",
+            "kebele": null,
+            "house_number": null,
+            "latitude": "9.020450",
+            "longitude": "38.752780",
+            "is_permanent": true
+        }
+    },
+    {
+        "model": "jobs.jobaddress",
+        "pk": 3,
+        "fields": {
+            "country": "Ethiopia",
+            "region": "Addis Ababa",
+            "city": "Addis Ababa",
+            "kebele": null,
+            "house_number": null,
+            "latitude": "9.020450",
+            "longitude": "38.752780",
+            "is_permanent": true
+        }
+    },
+    {
+        "model": "jobs.jobaddress",
+        "pk": 4,
+        "fields": {
+            "country": "Ethiopia",
+            "region": "Addis Ababa",
+            "city": "Addis Ababa",
+            "kebele": null,
+            "house_number": null,
+            "latitude": "9.020450",
+            "longitude": "38.752780",
+            "is_permanent": true
+        }
+    },
+    {
+        "model": "jobs.jobpostphoto",
+        "pk": 1,
+        "fields": {
+            "image": "job_post_photos/jobpost.png"
+        }
+    },
+    {
+        "model": "jobs.jobpostphoto",
+        "pk": 2,
+        "fields": {
+            "image": "job_post_photos/jobpost_xuG4q0B.png"
+        }
+    },
+    {
+        "model": "jobs.jobpostphoto",
+        "pk": 3,
+        "fields": {
+            "image": "job_post_photos/jobpost_P8mpUJ5.png"
+        }
+    },
+    {
+        "model": "jobs.jobpostphoto",
+        "pk": 4,
+        "fields": {
+            "image": "job_post_photos/jobpost_ViZEYnb.png"
+        }
+    },
+    {
+        "model": "jobs.jobpostphoto",
+        "pk": 5,
+        "fields": {
+            "image": "job_post_photos/jobpost_T68SXbQ.png"
+        }
+    },
+    {
+        "model": "jobs.jobpostphoto",
+        "pk": 6,
+        "fields": {
+            "image": "job_post_photos/jobpost_5pxcKbS.png"
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 1,
+        "fields": {
+            "name": "Maintenance & Repair",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 2,
+        "fields": {
+            "name": "Construction & Renovation",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 3,
+        "fields": {
+            "name": "Household Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 4,
+        "fields": {
+            "name": "Transport & Delivery",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 5,
+        "fields": {
+            "name": "Education & Tutoring",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 6,
+        "fields": {
+            "name": "Gardening & Landscaping",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 7,
+        "fields": {
+            "name": "Health & Wellness",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobcategory",
+        "pk": 8,
+        "fields": {
+            "name": "Event Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 1,
+        "fields": {
+            "category": 1,
+            "name": "Plumbing Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 2,
+        "fields": {
+            "category": 1,
+            "name": "Electrical Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 3,
+        "fields": {
+            "category": 1,
+            "name": "Appliance Repair",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 4,
+        "fields": {
+            "category": 1,
+            "name": "HVAC Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 5,
+        "fields": {
+            "category": 1,
+            "name": "General Handyman Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 6,
+        "fields": {
+            "category": 2,
+            "name": "Masonry Work",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 7,
+        "fields": {
+            "category": 2,
+            "name": "Carpentry Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 8,
+        "fields": {
+            "category": 2,
+            "name": "Painting Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 9,
+        "fields": {
+            "category": 2,
+            "name": "Roofing Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 10,
+        "fields": {
+            "category": 2,
+            "name": "Flooring Installation",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 11,
+        "fields": {
+            "category": 3,
+            "name": "Cleaning Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 12,
+        "fields": {
+            "category": 3,
+            "name": "Laundry Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 13,
+        "fields": {
+            "category": 3,
+            "name": "House Sitting Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 14,
+        "fields": {
+            "category": 3,
+            "name": "Pet Sitting Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 15,
+        "fields": {
+            "category": 4,
+            "name": "Delivery Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 16,
+        "fields": {
+            "category": 4,
+            "name": "Moving Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 17,
+        "fields": {
+            "category": 4,
+            "name": "Transportation Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 18,
+        "fields": {
+            "category": 5,
+            "name": "Tutoring Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 19,
+        "fields": {
+            "category": 5,
+            "name": "Exam Preparation Classes",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 20,
+        "fields": {
+            "category": 5,
+            "name": "Music Lessons",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 21,
+        "fields": {
+            "category": 5,
+            "name": "Computer Skills Training",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 22,
+        "fields": {
+            "category": 6,
+            "name": "Gardening Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 23,
+        "fields": {
+            "category": 6,
+            "name": "Landscaping Design",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 24,
+        "fields": {
+            "category": 6,
+            "name": "Tree Trimming and Removal",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 25,
+        "fields": {
+            "category": 7,
+            "name": "Personal Fitness Training",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 26,
+        "fields": {
+            "category": 7,
+            "name": "Yoga and Meditation Classes",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 27,
+        "fields": {
+            "category": 7,
+            "name": "Massage Therapy",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 28,
+        "fields": {
+            "category": 8,
+            "name": "Event Planning",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 29,
+        "fields": {
+            "category": 8,
+            "name": "Catering Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 30,
+        "fields": {
+            "category": 8,
+            "name": "Photography Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 31,
+        "fields": {
+            "category": 8,
+            "name": "DJ Services",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.jobsubcategory",
+        "pk": 32,
+        "fields": {
+            "category": 8,
+            "name": "Event Setup and Cleanup",
+            "description": ""
+        }
+    },
+    {
+        "model": "jobs.job",
+        "pk": 1,
+        "fields": {
+            "title": "Plumber Needed",
+            "description": "Looking for an experienced plumber to fix leaky pipes.",
+            "subcategory": 1,
+            "posted_by": 1,
+            "payement_choice": "PerTask",
+            "created_at": "2024-07-10T16:19:46.571Z",
+            "updated_at": "2024-07-10T16:19:46.617Z",
+            "estimated_price": null,
+            "currency_type": "Birr",
+            "job_address": 1,
+            "is_finished": false,
+            "post_photos": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "model": "jobs.job",
+        "pk": 2,
+        "fields": {
+            "title": "Electrician Needed",
+            "description": "Electrical wiring repair needed for a residential building.",
+            "subcategory": 2,
+            "posted_by": 1,
+            "payement_choice": "PerTask",
+            "created_at": "2024-07-10T16:19:46.649Z",
+            "updated_at": "2024-07-10T16:19:46.684Z",
+            "estimated_price": null,
+            "currency_type": "Birr",
+            "job_address": 2,
+            "is_finished": false,
+            "post_photos": [
+                3
+            ]
+        }
+    },
+    {
+        "model": "jobs.job",
+        "pk": 3,
+        "fields": {
+            "title": "Plumber Needed",
+            "description": "Looking for an experienced plumber to fix leaky pipes.",
+            "subcategory": 1,
+            "posted_by": 6,
+            "payement_choice": "PerTask",
+            "created_at": "2024-07-10T17:56:02.239Z",
+            "updated_at": "2024-07-10T17:56:02.280Z",
+            "estimated_price": null,
+            "currency_type": "Birr",
+            "job_address": 3,
+            "is_finished": false,
+            "post_photos": [
+                4,
+                5
+            ]
+        }
+    },
+    {
+        "model": "jobs.job",
+        "pk": 4,
+        "fields": {
+            "title": "Electrician Needed",
+            "description": "Electrical wiring repair needed for a residential building.",
+            "subcategory": 2,
+            "posted_by": 6,
+            "payement_choice": "PerTask",
+            "created_at": "2024-07-10T17:56:02.305Z",
+            "updated_at": "2024-07-10T17:56:02.338Z",
+            "estimated_price": null,
+            "currency_type": "Birr",
+            "job_address": 4,
+            "is_finished": false,
+            "post_photos": [
+                6
+            ]
+        }
+    }
+]
