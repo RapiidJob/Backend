@@ -39,7 +39,7 @@ class JobCreateAPIView(generics.CreateAPIView):
             
             job = serializer.save(job_address = job_address)
             response = serializer.data
-            response['job_adress'] = JobAddressSerializer(instance=job.job_address).data
+            response['job_address'] = JobAddressSerializer(instance=job.job_address).data
             return Response(response, status=status.HTTP_201_CREATED)
         
         except ValidationError as e:
@@ -115,7 +115,7 @@ class JobRetrieveAPIView(generics.RetrieveAPIView):
 class SearchDefaultView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticated, IsWorker]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         title = request.data.get('title', None)
@@ -128,9 +128,9 @@ class SearchDefaultView(generics.GenericAPIView):
             return Response({"errors":"User addres is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
         
         jobs = Job.objects.filter(
-            Q(job_adress__country__icontains=address.country) |
-            Q(job_adress__region__icontains=address.region) |
-            (Q(job_adress__city__icontains=address.city) | Q(job_adress__city__isnull=True))
+            Q(job_address__country__icontains=address.country) |
+            Q(job_address__region__icontains=address.region) |
+            (Q(job_address__city__icontains=address.city) | Q(job_address__city__isnull=True))
             )
         if title and category:
             jobs = jobs.filter(
@@ -147,7 +147,7 @@ class SearchDefaultView(generics.GenericAPIView):
 class SearchByPlaceView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticated, IsWorker]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         category = request.data.get('category')
@@ -161,9 +161,9 @@ class SearchByPlaceView(generics.GenericAPIView):
                 return Response({"errors": "Country, region, and city are required for this search."}, status=status.HTTP_400_BAD_REQUEST)
 
             jobs = Job.objects.filter(
-                Q(job_adress__country__icontains=country) |
-                Q(job_adress__region__icontains=region) |
-                (Q(job_adress__city__icontains=city) | Q(job_adress__city__isnull=True))
+                Q(job_address__country__icontains=country) |
+                Q(job_address__region__icontains=region) |
+                (Q(job_address__city__icontains=city) | Q(job_address__city__isnull=True))
             )
             
             if title and category:
@@ -187,7 +187,7 @@ class SearchByPlaceView(generics.GenericAPIView):
 class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticated, IsWorker]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         category = request.data.get('category', None)
