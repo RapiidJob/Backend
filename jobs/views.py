@@ -5,7 +5,7 @@ from .models import Job, JobAddress
 from .serializers import JobSerializer, JobAddressSerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
-
+from rest_framework.exceptions import ValidationError
 import math
 
 class JobCreateAPIView(generics.CreateAPIView):
@@ -14,35 +14,40 @@ class JobCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsEmployer]
 
     def create(self, request, *args, **kwargs):
-        # if request.user.account_type != "Employer":
-        #     return Response({"error": "Only employers can create jobs."}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            serializer = self.get_serializer(data=request.data, context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            job = serializer.save()
+
+            if request.data.get("use_my_address") == 'False':
+                city = request.data.get("city", None)
+                country = request.data.get("country", None)
+                region = request.data.get("region", None)
+                latitude = request.data.get("latitude", None)
+                longitude = request.data.get("longitude", None)
+                address = JobAddress.objects.create(
+                    city=city,
+                    country=country, 
+                    region=region,
+                    latitude=latitude,
+                    longitude=longitude,
+                )
+                job.job_adress = address
+                job.save()
+            else:
+                job.job_adress = request.user.address
+                job.save()
+
+            response = serializer.data
+            response['job_adress'] = JobAddressSerializer(instance=job.job_adress).data
+            return Response(response, status=status.HTTP_201_CREATED)
         
-        serializer = self.get_serializer(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        job = serializer.save()
-        if request.data.get("use_my_address") == 'False':
-            city = request.data.get("city", None)
-            country = request.data.get("country", None)
-            region = request.data.get("region", None)
-            latitude = request.data.get("latitude", None)
-            longitude = request.data.get("longitude", None)
-            address  = JobAddress.objects.create(
-                city=city,
-                country=country, 
-                region=region,
-                latitude=latitude,
-                longitude=longitude,
-                
-            )
-            job.job_adress = address
-            job.save()
-        else:
-            job.job_adress = request.user.address
-            job.save()
-        response = serializer.data
-        response['job_adress'] = JobAddressSerializer(instance=job.job_adress).data
-        return Response(response, status=status.HTTP_201_CREATED)
-    
+        except ValidationError as e:
+            return Response({"message": "Validation error", "errors": e.detail}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except Exception as e:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -54,16 +59,47 @@ class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
         return Job.objects.filter(posted_by=self.request.user)
 
     def update(self, request, *args, **kwargs):
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+            
+            if request.user != instance.posted_by:
+                return Response({"errors": "You do not have permission to update this job."}, status=status.HTTP_403_FORBIDDEN)
+            
+            serializer = self.get_serializer(instance, data=request.data, partial=True, context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            job = serializer.save()
+            
+            if request.data.get("use_my_address") == 'False':
+                city = request.data.get("city", None)
+                country = request.data.get("country", None)
+                region = request.data.get("region", None)
+                latitude = request.data.get("latitude", None)
+                longitude = request.data.get("longitude", None)
+                
+                address = job.job_address
+                address.city = city
+                address.country = country
+                address.region = region
+                address.latitude = latitude
+                address.longitude = longitude
+                address.save()
+            else:
+                job.job_address = request.user.address
+            
+            job.save()
+            response = serializer.data
+            response['job_address'] = JobAddressSerializer(instance=job.job_address).data
+            return Response(response, status=status.HTTP_200_OK)
         
-        if request.user != instance.posted_by:
-            return Response({"error": "You do not have permission to update this job."}, status=status.HTTP_403_FORBIDDEN)
+        except ValidationError as e:
+            return Response({"message": "Validation error", "errors": e.detail}, status=status.HTTP_400_BAD_REQUEST)
         
-        serializer = self.get_serializer(instance, data=request.data, partial=True, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        job = serializer.save()
+        except Job.DoesNotExist:
+            return Response({"message": "Job not found."}, status=status.HTTP_404_NOT_FOUND)
         
-        return Response(serializer.data)
+        except Exception as e:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class JobListAPIView(generics.ListAPIView):
     queryset = Job.objects.all()
@@ -89,7 +125,7 @@ class SearchDefaultView(generics.GenericAPIView):
         address = user_instance.address
 
         if not address:
-            return Response({"error":"User addres is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"errors":"User addres is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
         
         jobs = Job.objects.filter(
             Q(job_adress__country__icontains=address.country) |
@@ -108,12 +144,10 @@ class SearchDefaultView(generics.GenericAPIView):
 
         serializer  = JobSerializer(jobs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 class SearchByPlaceView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated, IsWorker]
-
 
     def post(self, request, *args, **kwargs):
         category = request.data.get('category')
@@ -122,24 +156,31 @@ class SearchByPlaceView(generics.GenericAPIView):
         region = request.data.get('region')
         city = request.data.get('city')
 
-        jobs = Job.objects.filter(
-            Q(job_adress__country__icontains=country) |
-            Q(job_adress__region__icontains=region) |
-            (Q(job_adress__city__icontains=city) | Q(job_adress__city__isnull=True))
-        )
-        
-        if title and category:
-            jobs = jobs.filter(
-                Q(subcategory__name__icontains=category) |
-                Q(title__icontains=title)
+        try:
+            if not country or not region or not city:
+                return Response({"errors": "Country, region, and city are required for this search."}, status=status.HTTP_400_BAD_REQUEST)
+
+            jobs = Job.objects.filter(
+                Q(job_adress__country__icontains=country) |
+                Q(job_adress__region__icontains=region) |
+                (Q(job_adress__city__icontains=city) | Q(job_adress__city__isnull=True))
             )
-        elif title:
-            jobs = jobs.filter(Q(title__icontains=title))
-        elif category:
-            jobs=jobs.filter(Q(subcategory__name__icontains=category))
+            
+            if title and category:
+                jobs = jobs.filter(
+                    Q(subcategory__name__icontains=category) |
+                    Q(title__icontains=title)
+                )
+            elif title:
+                jobs = jobs.filter(Q(title__icontains=title))
+            elif category:
+                jobs = jobs.filter(Q(subcategory__name__icontains=category))
+            
+            serializer = JobSerializer(jobs, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         
-        serializer  = JobSerializer(jobs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  
@@ -160,7 +201,6 @@ def haversine(lat1, lon1, lat2, lon2):
     
     return R * c 
 
-
 class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -170,35 +210,41 @@ class SearchbyLocationView(generics.GenericAPIView):
         category = request.data.get('category', None)
         title = request.data.get('title', None)
         latitude = request.data.get('latitude')
-        longitude = request.data.get('latitude')
-        max_distance_km = 5000 # search by 5 km radius
+        longitude = request.data.get('longitude')
+        max_distance_km = 5  # search within 5 km radius
 
-        jobs = Job.objects.all()
-        print(category, title)
-        if title and category:
-            jobs = jobs.filter(
-                Q(subcategory__name__icontains=category) |
-                Q(title__icontains=title)
-            )
+        try:
+            if not latitude or not longitude:
+                return Response({"errors": "Latitude and longitude are required for this search."}, status=status.HTTP_400_BAD_REQUEST)
+
+            jobs = Job.objects.all()
+
+            if title and category:
+                jobs = jobs.filter(
+                    Q(subcategory__name__icontains=category) |
+                    Q(title__icontains=title)
+                )
+            elif title:
+                jobs = jobs.filter(Q(title__icontains=title))
+            elif category:
+                jobs = jobs.filter(Q(subcategory__name__icontains=category))
+
+            def job_within_distance(job):
+                if job.job_address and job.job_address.latitude and job.job_address.longitude:
+                    return haversine(latitude, longitude, float(job.job_address.latitude), float(job.job_address.longitude)) <= max_distance_km
+                return False
             
-        elif title:
-            jobs = jobs.filter(Q(title__icontains=title))
-        elif category:
-            jobs=jobs.filter(Q(subcategory__name__icontains=category))
-        
-        print(jobs)
+            jobs = list(filter(job_within_distance, jobs))
 
-        def job_within_distance(job):
-            if job.job_address and job.job_address.latitude and job.job_address.longitude:
-                print('hi', job)
-                return haversine(latitude, longitude, float(job.job_address.latitude), float(job.job_address.longitude)) <= max_distance_km
-            return False
+            serializer = JobSerializer(jobs, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         
-        jobs = list(filter(job_within_distance, jobs))
-        print(jobs)
+        except ValueError:
+            return Response({"errors": "Invalid latitude or longitude values."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except Exception as e:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        serializer  = JobSerializer(jobs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
         
 
