@@ -15,7 +15,7 @@ user_data = {
     'first_name': 'abdu',
     'middle_name': 'hussen',
     'last_name': 'Ali',
-    'email': 'tedtsot@exafmncple.com',
+    'email': 'kkk@exafmncple.com',
     'account_type': "Employer",
 }
 
@@ -52,14 +52,14 @@ if registration_response.status_code == 201:
     dummy_jobs = [
         
         {
-            'title': 'Plumber Needed',
+            'title': "Transport & Delivery",
             'description': 'Looking for an experienced plumber to fix leaky pipes.',
-            'subcategory_id': 1,  # Replace with actual subcategory ID
+            'subcategory_id': 3,  # Replace with actual subcategory ID
                 'country': 'Ethiopia',
-                'city': 'Addis Ababa',
-                'region': 'Addis Ababa',
-                'latitude': 9.02045,
-                'longitude': 38.75278,
+                'city': 'Adama',
+                'region': 'Oromia',
+                'latitude': 10.0123,
+                'longitude': 21.75278,
                 
             'post_photos': [
                 {
@@ -73,14 +73,14 @@ if registration_response.status_code == 201:
             "use_my_address": False
         },
         {
-            'title': 'Electrician Needed',
+            'title': '"Household Services"',
             'description': 'Electrical wiring repair needed for a residential building.',
-            'subcategory_id': 2,  # Replace with actual subcategory ID
+            'subcategory_id': 4,  # Replace with actual subcategory ID
                 'country': 'Ethiopia',
-                'city': 'Addis Ababa',
-                'region': 'Addis Ababa',
-                'latitude': 9.02045,
-                'longitude': 38.75278,
+                'city': 'Adama',
+                'region': 'Oromia',
+                'latitude': 12.033,
+                'longitude': 40.012,
             'post_photos': [
                 {
                     'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path

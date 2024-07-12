@@ -3,7 +3,7 @@ from getpass import getpass
 import random
 
 token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwOTQzNDkyLCJpYXQiOjE3MjA2NDM0OTIsImp0aSI6IjE2ZGY5OWQ4MDI4MTQzYzhhNWJkYmJmMjBjMjE0NWY0IiwidXNlcl9pZCI6NX0.QiHMKQkHh83xlluvevBHu7fiU4ULinOfF2VTMP2LNP8"
-endpoint = "http://127.0.0.1:8000/jobs/search_by_location/"
+endpoint = "http://127.0.0.1:8000/api/jobs/search_by_location/"
 
 
 import math
@@ -39,8 +39,8 @@ def get_random_point_within_radius(latitude, longitude, radius_km):
     
     return final_lat, final_lon
 
-given_latitude = 9.02045
-given_longitude = 38.75278
+given_latitude = 12.033000
+given_longitude = 40.012000
 
 radius_km = 5
 
@@ -54,7 +54,7 @@ data = {
     'city': 'Addis Ababa',
     'region': 'Addis Ababa',
     'category': 'Maintenance & Repair',  
-    'title':   'Plumber Needed',
+    'title':   'Electrician Needed',
     'latitude':random_latitude,
     'longitude': random_longitude,
 }
