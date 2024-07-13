@@ -1,8 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import Job, JobAddress
-from .serializers import JobSerializer, JobAddressSerializer
+from .models import Job, JobAddress, JobCategory
+from .serializers import JobSerializer, JobAddressSerializer, JobCategorySerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
@@ -55,11 +55,9 @@ class JobCreateAPIView(generics.CreateAPIView):
 class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsEmployer]
 
     def get_queryset(self):
-        if not self.request.user.account_type == "Employer":
-            return Job.objects.none()  # Return an empty queryset if not an employer
         return Job.objects.filter(posted_by=self.request.user)
 
     def update(self, request, *args, **kwargs):
@@ -223,6 +221,10 @@ class SearchByPlaceView(generics.GenericAPIView):
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class JobCatagoryAPIView(generics.ListAPIView):
+    queryset = JobCategory.objects.all()
+    serializer_class = JobCategorySerializer
+    permission_classes = [IsAuthenticated]
 
 class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()

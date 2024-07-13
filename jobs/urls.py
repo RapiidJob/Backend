@@ -6,10 +6,11 @@ from .views import (
     JobCreateAPIView,JobRetrieveAPIView, 
     JobRetrieveUpdateAPIView, JobListAPIView,
     SearchDefaultView, SearchByPlaceView, 
-    SearchbyLocationView, JobListByCategoryAPIView, JobListByUserAPIView
+    SearchbyLocationView, JobListByCategoryAPIView, JobListByUserAPIView, JobCatagoryAPIView
 )
 
 urlpatterns = [
+    path('catagories/', JobCatagoryAPIView.as_view(), name="catagories"),
     path('list_by_user/', JobListByUserAPIView.as_view(), name="list_by_user"),
     path('category/', JobListByCategoryAPIView.as_view(), name="category"),
     path('list', JobListAPIView.as_view(), name='job-list'),
