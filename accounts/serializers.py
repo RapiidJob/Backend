@@ -62,7 +62,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                   'verification_type', 'verification_document', 'profile_image', 'address',
                   "account_type", 'is_identity_verified',
                   'is_email_verified', 'is_phone_verified', 'rating', 'created_at')
-        read_only_fields = ('email', 'created_at', 'is_identity_verified', 'is_email_verified', 'is_phone_verified', 'rating', 'password')
+        read_only_fields = ('email', 'created_at', 'rating', 'password')
 
         extra_kwargs = {
             'profile_image': {'required': False},
@@ -70,8 +70,15 @@ class CustomUserSerializer(serializers.ModelSerializer):
         }
 
     def update(self, instance, validated_data):
-        address_data = validated_data.pop('address', None)
         instance = super().update(instance, validated_data)
+        request = self.context.get('request', None)
+        if request and request.user.account_type == 'Admin':
+            instance.is_identity_verified = validated_data.get('is_identity_verified', None)
+            instance.is_email_verified = validated_data.get('is_email_verified', None)
+            instance.is_phone_verified = validated_data.get('is_phone_verified', None)
+            return super().update(instance, validated_data)
+        
+        address_data = validated_data.pop('address', None)
         if address_data:
             if hasattr(instance, 'address') and instance.address:
                 instance.address.street = address_data.get('street', instance.address.street)
@@ -83,6 +90,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
                 created = UserAddress.objects.create(**address_data)
                 instance.address = created
                 instance.save()
+        
         return instance
 
 

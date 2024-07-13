@@ -10,4 +10,6 @@ urlpatterns = [
     path('worker', views.WorkerProfileRetrieveUpdateAPIView.as_view(), name='worker-detail-update'),
     path('register/', views.UserRegisterView.as_view(), name='register'),
     path('login/', views.LoginView.as_view(), name='login'),
+    path('employer/verify/<int:pk>/', views.EmployerProfileVerifyAPIView.as_view(), name='employer-profile-verify'),
+    path('worker/verify/<int:pk>/', views.WorkerProfileVerifyAPIView.as_view(), name="worker-profile-verify"),
 ]

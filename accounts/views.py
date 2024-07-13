@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import ValidationError
+from RapidJob.permissions import IsAdmin
 from .models import CustomUser, EmployerProfile, WorkerProfile
 from .serializers import (CustomUserRegisterSerializer, EmployerProfileSerializer,
                           WorkerProfileSerializer, LoginSerializer, 
@@ -219,3 +220,55 @@ class WorkerProfileRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
             return profile
         except WorkerProfile.DoesNotExist:
             return Response({"message": "Worker profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+class EmployerProfileVerifyAPIView(generics.UpdateAPIView):
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        try:
+            employer = EmployerProfile.objects.get(pk=pk)
+            user = CustomUser.objects.get(pk=employer.user.pk)
+            data={
+                'is_identity_verified': True, 
+                'is_email_verified': True,
+                'is_phone_verified': True
+            }
+            seriaializer = CustomUserSerializer(instance=user, data=data, partial=True, context={'request': self.request})
+            if seriaializer.is_valid():
+                seriaializer.save()
+                return Response({'status':'verified'}, status=status.HTTP_200_OK)
+            return Response(seriaializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except EmployerProfile.DoesNotExist:
+            return Response({'error': 'Employer not found'}, status=status.HTTP_404_NOT_FOUND)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'errorss': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class WorkerProfileVerifyAPIView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated, IsAdmin]
+    serializer_class= CustomUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        try:
+            worker = WorkerProfile.objects.get(pk=pk)
+            user = CustomUser.objects.get(pk=worker.user.pk)
+            data={
+                'is_identity_verified': True, 
+                'is_email_verified': True,
+                'is_phone_verified': True
+            }
+            seriaializer = CustomUserSerializer(instance=user, data=data, partial=True, context={'request': self.request})
+            if seriaializer.is_valid():
+                seriaializer.save()
+                return Response({'status':'verified'}, status=status.HTTP_200_OK)
+            return Response(seriaializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except WorkerProfile.DoesNotExist:
+            return Response({'error': 'Worker not found'}, status=status.HTTP_404_NOT_FOUND)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
