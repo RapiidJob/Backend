@@ -28,8 +28,13 @@ class JobSubcategorySerializer(serializers.ModelSerializer):
         model = JobSubcategory
         fields = ['id', 'category', 'category_id', 'name', 'description']
 
+class JobSubCatagorReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobSubcategory
+        fields = ['id', 'name', 'description']
+        
 class JobCatagoryReadSerializer(serializers.ModelSerializer):
-    subcategories = JobSubcategorySerializer(many=True, read_only=True)
+    subcategories = JobSubCatagorReadSerializer(many=True, read_only=True)
     class Meta:
         model = JobCategory
         fields = ['id', 'name', 'description', 'subcategories']
