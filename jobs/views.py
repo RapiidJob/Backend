@@ -1,8 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import Job, JobAddress, JobCategory
-from .serializers import JobSerializer, JobAddressSerializer, JobCategorySerializer
+from .models import Job, JobAddress, JobCategory, JobSubcategory
+from .serializers import JobSerializer, JobAddressSerializer, JobCatagoryReadSerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
@@ -223,8 +223,8 @@ class SearchByPlaceView(generics.GenericAPIView):
 
 class JobCatagoryAPIView(generics.ListAPIView):
     queryset = JobCategory.objects.all()
-    serializer_class = JobCategorySerializer
-    permission_classes = [IsAuthenticated]
+    serializer_class = JobCatagoryReadSerializer
+    permission_classes = [AllowAny]
 
 class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()
