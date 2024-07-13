@@ -15,7 +15,7 @@ user_data = {
     'first_name': 'abdu',
     'middle_name': 'hussen',
     'last_name': 'Ali',
-    'email': 'kkk@exafmncple.com',
+    'email': 'abdulwahidhussen750@gmail.com',
     'account_type': "Employer",
 }
 
@@ -41,8 +41,6 @@ if registration_response.status_code == 201:
     
 # Close the file handle
 
-
-
 API_URL = 'http://127.0.0.1:8000/api/jobs/create/'
 
 if registration_response.status_code == 201:
@@ -50,45 +48,206 @@ if registration_response.status_code == 201:
 
     # Dummy data for jobs
     dummy_jobs = [
-        
+        {
+            'title': "Plumbing Repair",
+            'description': 'Looking for an experienced plumber to fix leaky pipes.',
+            'subcategory_id': 1,  
+            'country': 'Ethiopia',
+            'city': 'Adama',
+            'region': 'Oromia',
+            'latitude': 9.0371,
+            'longitude': 38.7469,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 500,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "Electrical Wiring Repair",
+            'description': 'Electrical wiring repair needed for a residential building.',
+            'subcategory_id': 2,  
+            'country': 'Ethiopia',
+            'city': 'Addis Ababa',
+            'region': 'Addis Ababa',
+            'latitude': 9.0300,
+            'longitude': 38.7400,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 300,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "Appliance Repair",
+            'description': 'Need to repair a broken refrigerator.',
+            'subcategory_id': 3,  
+            'country': 'Ethiopia',
+            'city': 'Hawassa',
+            'region': 'SNNPR',
+            'latitude': 7.0570,
+            'longitude': 38.4865,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 700,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "HVAC Maintenance",
+            'description': 'Regular maintenance for an HVAC system.',
+            'subcategory_id': 4,  
+            'country': 'Ethiopia',
+            'city': 'Mekele',
+            'region': 'Tigray',
+            'latitude': 13.4960,
+            'longitude': 39.4753,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 600,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "General Handyman",
+            'description': 'Various small repairs needed around the house.',
+            'subcategory_id': 5,  
+            'country': 'Ethiopia',
+            'city': 'Gondar',
+            'region': 'Amhara',
+            'latitude': 12.6035,
+            'longitude': 37.4521,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 200,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "House Painting",
+            'description': 'Painting services needed for a two-story house.',
+            'subcategory_id': 6,  
+            'country': 'Ethiopia',
+            'city': 'Dire Dawa',
+            'region': 'Dire Dawa',
+            'latitude': 9.5931,
+            'longitude': 41.8661,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 1000,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "Roofing Services",
+            'description': 'Roof repair needed after storm damage.',
+            'subcategory_id': 7,  
+            'country': 'Ethiopia',
+            'city': 'Jimma',
+            'region': 'Oromia',
+            'latitude': 7.6667,
+            'longitude': 36.8333,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 1500,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "Flooring Installation",
+            'description': 'Install new hardwood floors in the living room.',
+            'subcategory_id': 8,  
+            'country': 'Ethiopia',
+            'city': 'Bahir Dar',
+            'region': 'Amhara',
+            'latitude': 11.5936,
+            'longitude': 37.3908,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 2000,
+            "payement_choice": "PerTask"
+        },
+        {
+            'title': "House Cleaning",
+            'description': 'Need a cleaning service for a 3-bedroom apartment.',
+            'subcategory_id': 9,  
+            'country': 'Ethiopia',
+            'city': 'Harar',
+            'region': 'Harari',
+            'latitude': 9.3114,
+            'longitude': 42.1244,
+            'post_photos': [
+                {
+                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
+                }
+            ],
+            'is_finished': False,
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 400,
+            "payement_choice": "PerTask"
+        },
         {
             'title': "Transport & Delivery",
-            'description': 'Looking for an experienced plumber to fix leaky pipes.',
-            'subcategory_id': 3,  # Replace with actual subcategory ID
-                'country': 'Ethiopia',
-                'city': 'Adama',
-                'region': 'Oromia',
-                'latitude': 10.0123,
-                'longitude': 21.75278,
-                
-            'post_photos': [
-                {
-                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
-                },
-                {
-                    'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
-                }
-            ],
-            'is_finished': False,
-            "use_my_address": False
-        },
-        {
-            'title': '"Household Services"',
-            'description': 'Electrical wiring repair needed for a residential building.',
-            'subcategory_id': 4,  # Replace with actual subcategory ID
-                'country': 'Ethiopia',
-                'city': 'Adama',
-                'region': 'Oromia',
-                'latitude': 12.033,
-                'longitude': 40.012,
+            'description': 'Need assistance with moving furniture to a new apartment.',
+            'subcategory_id': 15,  
+            'country': 'Ethiopia',
+            'city': 'Shashamane',
+            'region': 'Oromia',
+            'latitude': 7.1950,
+            'longitude': 38.9936,
             'post_photos': [
                 {
                     'image': open(os.path.join(script_dir, 'jobpost.png'), 'rb')  # Replace with actual photo file path
                 }
             ],
             'is_finished': False,
-            "use_my_address": False
-        },
+            "use_my_address": False,
+            "currency_type": "Birr", 
+            "estimated_price": 800,
+            "payement_choice": "PerTask"
+        }
     ]
 
     # Function to send jobs data to API

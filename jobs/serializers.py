@@ -51,7 +51,7 @@ class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = ['id', 'title', 'description', 'subcategory', 'subcategory_id', 'posted_by', 
-                  'created_at', 'updated_at', 'post_photos', 'is_finished', 'job_address']
+                  'created_at', 'updated_at', 'post_photos', 'is_finished', 'job_address', "estimated_price", "currency_type"]
 
     def create(self, validated_data):
         user = self.context['request'].user
