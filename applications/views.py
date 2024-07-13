@@ -95,3 +95,31 @@ class WorkHistoryRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
             return Response({"message": "Work history not found."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class ApplicationByUserAPIView(generics.ListAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+    permission_classes = [IsAuthenticated, IsWorker]
+    
+    def get_queryset(self):
+        return super().get_queryset().filter(worker=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        try:
+            return super().list(request, *args, **kwargs)
+        except Exception as e:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class ApplicationByJobAPView(generics.ListAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+    permission_classes = [IsAuthenticated, IsWorker]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(job=self.request.query_params.get('job_id'))
+
+    def list(self, request, *args, **kwargs):
+        try:
+            return super().list(request, *args, **kwargs)
+        except Exception as e:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

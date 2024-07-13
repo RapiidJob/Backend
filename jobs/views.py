@@ -8,6 +8,8 @@ from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
 from .utils import *
 from RapidJob import pagination
+from rest_framework.decorators import action
+
 
 class JobCreateAPIView(generics.CreateAPIView):
     queryset = Job.objects.all()
@@ -34,11 +36,11 @@ class JobCreateAPIView(generics.CreateAPIView):
                 )
             else:
                 if not request.user.address:
-                    return Response({"message" : "you dont have address information"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"message" : "You don't have address information"}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     job_address = create_job_address_from_user(request.user)
             
-            job = serializer.save(job_address = job_address)
+            job = serializer.save(job_address=job_address)
             response = serializer.data
             response['job_address'] = JobAddressSerializer(instance=job.job_address).data
             return Response(response, status=status.HTTP_201_CREATED)
@@ -48,6 +50,7 @@ class JobCreateAPIView(generics.CreateAPIView):
         
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Job.objects.all()
@@ -101,11 +104,42 @@ class JobRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 class JobListAPIView(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [AllowAny]
+    
+class JobListByUserAPIView(generics.ListAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated, IsEmployer]
+    pagination_class = pagination.StandardPageNumberPagination  # Enable pagination by default
+
+    filter_backends = ['ordering']  # Allow ordering by fields
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(posted_by=user)
+    
+class JobListByCategoryAPIView(generics.ListAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [AllowAny]  
+    pagination_class = pagination.StandardPageNumberPagination  
+
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(category=self.request.query_params.get('category'))
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class JobRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Job.objects.all()
@@ -126,13 +160,13 @@ class SearchDefaultView(generics.GenericAPIView):
         address = user_instance.address
 
         if not address:
-            return Response({"errors":"User addres is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"errors":"User address is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
         
         jobs = Job.objects.filter(
             Q(job_address__country__icontains=address.country) |
             Q(job_address__region__icontains=address.region) |
             (Q(job_address__city__icontains=address.city) | Q(job_address__city__isnull=True))
-            )
+        )
         if title and category:
             jobs = jobs.filter(
                 Q(subcategory__name__icontains=category) |
@@ -190,7 +224,6 @@ class SearchByPlaceView(generics.GenericAPIView):
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
 class SearchbyLocationView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -237,23 +270,3 @@ class SearchbyLocationView(generics.GenericAPIView):
         
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-        
-
-        
-        
-
-
-
-
-
-
-
-
-        
-
-
-
-
-

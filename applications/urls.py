@@ -9,4 +9,6 @@ urlpatterns = [
     path('get/<int:pk>/', views.ApplicationRetrieveUpdateAPIView.as_view(), name='application-detail'),
     path('workhistories/', views.WorkHistoryListCreateAPIView.as_view(), name='workhistory-list'),
     path('workhistories/<int:pk>/', views.WorkHistoryRetrieveUpdateAPIView.as_view(), name='workhistory-detail'),
+    path('job_applications/', views.ApplicationByJobAPView.as_view(), name="retrive"),
+    path("user_applications/", views.ApplicationByUserAPIView.as_view(), name="user_applications"),
 ]
