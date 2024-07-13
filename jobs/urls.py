@@ -1,12 +1,17 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
+
+router = SimpleRouter()
 from .views import (
     JobCreateAPIView,JobRetrieveAPIView, 
     JobRetrieveUpdateAPIView, JobListAPIView,
     SearchDefaultView, SearchByPlaceView, 
-    SearchbyLocationView,
+    SearchbyLocationView, JobListByCategoryAPIView, JobListByUserAPIView
 )
 
 urlpatterns = [
+    path('list_by_user/', JobListByUserAPIView.as_view(), name="list_by_user"),
+    path('category/', JobListByCategoryAPIView.as_view(), name="category"),
     path('list', JobListAPIView.as_view(), name='job-list'),
     path('create/', JobCreateAPIView.as_view(), name='job-create'),
     path('<int:pk>/', JobRetrieveUpdateAPIView.as_view(), name='job-detail'),
