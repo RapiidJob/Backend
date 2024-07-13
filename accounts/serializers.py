@@ -62,12 +62,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
                   'verification_type', 'verification_document', 'profile_image', 'address',
                   "account_type", 'is_identity_verified',
                   'is_email_verified', 'is_phone_verified', 'rating', 'created_at')
-        read_only_fields = ('email', 'created_at', 'rating', 'password')
+        read_only_fields = ('email', 'created_at','is_email_verified', 'is_identity_verified', 'is_phone_verified', 'rating', 'password')
 
         extra_kwargs = {
             'profile_image': {'required': False},
             'verification_document': {'required': False}
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request', None)
+        if request and request.user.account_type == 'Admin':
+            self.fields['is_identity_verified'].read_only = False
+            self.fields['is_email_verified'].read_only = False
+            self.fields['is_phone_verified'].read_only = False
+
 
     def update(self, instance, validated_data):
         instance = super().update(instance, validated_data)
