@@ -31,6 +31,8 @@ class ApplicationListAPIView(generics.ListAPIView):
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    
+    
 class ApplicationRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
@@ -45,6 +47,8 @@ class ApplicationRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def update(self, request, *args, **kwargs):
+        # application = self.get_object()
+        # if application.
         try:
             return super().update(request, *args, **kwargs)
         except ValidationError as e:

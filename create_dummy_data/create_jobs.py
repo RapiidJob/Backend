@@ -5,7 +5,7 @@ import requests
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # API endpoint for creating jobs (replace with your actual endpoint)
-REGISTRATION_URL = 'http://127.0.0.1:8000/api/accounts/register/'
+REGISTRATION_URL = 'https://rapidjob-backend.onrender.com/api/accounts/register/'
 
 # User data and profile file
 user_data = {
@@ -30,7 +30,7 @@ registration_response = requests.post(REGISTRATION_URL, data=user_data)
 print(registration_response.json())
 
 if registration_response.status_code == 201:
-    employer_profile_url = "http://127.0.0.1:8000/api/accounts/employer/create/"
+    employer_profile_url = "https://rapidjob-backend.onrender.com/api/accounts/employer/create/"
     token = registration_response.json()['token']['access']
     
     employer_data = {
@@ -41,7 +41,7 @@ if registration_response.status_code == 201:
     
 # Close the file handle
 
-API_URL = 'http://127.0.0.1:8000/api/jobs/create/'
+API_URL = 'https://rapidjob-backend.onrender.com/api/jobs/create/'
 
 if registration_response.status_code == 201:
     BEARER_TOKEN = registration_response.json()['token']['access']
