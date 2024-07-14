@@ -272,3 +272,33 @@ class SearchbyLocationView(generics.GenericAPIView):
         
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class SearchByKeyWordAPIView(generics.GenericAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = pagination.StandardPageNumberPagination
+
+    def post(self, request, *args, **kwargs):
+        keyword = request.data.get('key_word', None)
+
+        try:
+            if not keyword:
+                return Response({'errors': 'Key word needed for this search'}, status=status.HTTP_400_BAD_REQUEST)
+            jobs = Job.objects.all()
+            jobs = jobs.filter(
+                Q(subcategory__name__icontains=keyword) |
+                Q(title__icontains=keyword) | 
+                Q(job_address__country__icontains=keyword) |
+                Q(job_address__region__icontains=keyword) |
+                (Q(job_address__city__icontains=keyword) & Q(job_address__city__isnull=True)) | 
+                Q(description__icontains=keyword)
+            ) 
+
+            paginator = pagination.StandardPageNumberPagination()
+            paginated_jobs = paginator.paginate_queryset(jobs, request)
+            serializer = JobSerializer(paginated_jobs, many=True)
+            return paginator.get_paginated_response(serializer.data)
+
+        except:
+            return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -6,7 +6,8 @@ from .views import (
     JobCreateAPIView,JobRetrieveAPIView, 
     JobRetrieveUpdateAPIView, JobListAPIView,
     SearchDefaultView, SearchByPlaceView, 
-    SearchbyLocationView, JobListByCategoryAPIView, JobListByUserAPIView, JobCatagoryAPIView
+    SearchbyLocationView, JobListByCategoryAPIView, 
+    JobListByUserAPIView, JobCatagoryAPIView, SearchByKeyWordAPIView
 )
 
 urlpatterns = [
@@ -20,4 +21,5 @@ urlpatterns = [
     path('search/', SearchDefaultView.as_view(), name='default-job-search'), # default search that searches based on the address of the worker's profile address
     path('search_by_location/', SearchbyLocationView.as_view()), # search based on lattitude and longitude of the worker's location
     path('search_by_place/', SearchByPlaceView.as_view(), name="search-by-place"), # Search based on place filled by the worker.
+    path('search_by_key_word/', SearchByKeyWordAPIView.as_view(), name="search-by-keyword")
 ]
