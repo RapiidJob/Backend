@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Job, JobAddress, JobPostPhoto, JobCategory, JobSubcategory
+from accounts.serializers import CustomUserSerializer
 
 class JobAddressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,7 +45,7 @@ class JobSerializer(serializers.ModelSerializer):
     subcategory_id = serializers.PrimaryKeyRelatedField(
         queryset=JobSubcategory.objects.all(), source='subcategory', write_only=True, required=False
     )
-    posted_by = serializers.PrimaryKeyRelatedField(read_only=True)
+    posted_by = CustomUserSerializer(read_only=True)
     post_photos = JobPostPhotoSerializer(many=True, read_only=True, required=False)
     job_address = JobAddressSerializer(read_only=True)
 
