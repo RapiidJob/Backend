@@ -31,7 +31,7 @@ DEBUG =  True #os.environ.get("DEBUG", "False").lower() == "true"
 
 # print(os.environ.get("ALLOWED_HOSTS"))
 ALLOWED_HOSTS =['*'] # os.environ.get("ALLOWED_HOSTS").split(" ")
-#print( os.environ.get("ALLOWED_HOSTS") )
+#print( os.environ.get("ALLOWED_HOSTS") )git
 
 
 # Application definition
