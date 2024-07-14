@@ -30,8 +30,8 @@ SECRET_KEY = 'django-insecure-75f)&#u(1+7qbxaq*d+-l%4ek#ei3^)wzam9g22tpl(^=1arsu
 DEBUG =  True #os.environ.get("DEBUG", "False").lower() == "true"
 
 # print(os.environ.get("ALLOWED_HOSTS"))
-ALLOWED_HOSTS =['*'] # os.environ.get("ALLOWED_HOSTS").split(" ")
-#print( os.environ.get("ALLOWED_HOSTS") )git
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+#print( os.environ.get("ALLOWED_HOSTS") )gi
 
 
 # Application definition
@@ -153,9 +153,9 @@ DATABASES = {
     }
 }
 
-# database_url = os.environ.get("DATABASE_URL")
-# if os.environ.get("LOCAL", "") != "TRUE":
-#     DATABASES['default'] = dj_database_url.parse(database_url)
+database_url = os.environ.get("DATABASE_URL")
+if os.environ.get("LOCAL", "") != "TRUE":
+    DATABASES['default'] = dj_database_url.parse(database_url)
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
