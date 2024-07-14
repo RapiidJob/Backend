@@ -3,8 +3,11 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from .models import Application, WorkHistory
-from .serializers import ApplicationCreateSerializer, ApplicationSerializer, WorkHistorySerializer
+from .models import Application, WorkHistory, WorkInProgress
+from .serializers import (
+        ApplicationCreateSerializer, ApplicationSerializer, 
+        WorkHistorySerializer, WorkinProgressSerializer
+    )
 from RapidJob.permissions import IsWorker, IsEmployer
 
 class ApplicationCreateAPIView(generics.CreateAPIView):
@@ -123,3 +126,34 @@ class ApplicationByJobAPView(generics.ListAPIView):
             return super().list(request, *args, **kwargs)
         except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class WorkInProgressCreateAPIView(generics.CreateAPIView):
+    queryset = WorkInProgress.objects.all()
+    serializer_class = WorkinProgressSerializer
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+class WorkInProgressRetrieveAPIView(generics.ListAPIView):
+    queryset = WorkInProgress.objects.all()
+    serializer_class = WorkinProgressSerializer
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+class WorkInProgressUpdateAPIVIew(generics.UpdateAPIView):
+    queryset = WorkInProgress.objects.all()
+    lookup_field = 'pk'
+    serializer_class= WorkinProgressSerializer
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+class WorkInProgressDestoryAPiView(generics.DestroyAPIView):
+    queryset =WorkInProgress.objects.all()
+    lookup_field = 'pk'
+    serializer_class = WorkinProgressSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)

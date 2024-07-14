@@ -66,3 +66,5 @@ class Job(models.Model):
     def __str__(self):
         
         return "job_" + str(self.id) + " " + self.title
+
+

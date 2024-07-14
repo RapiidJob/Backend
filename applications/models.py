@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
 from jobs.models import Job
+from django.utils import timezone
 
 
 PRICE_CHOICES = (
@@ -28,4 +29,13 @@ class WorkHistory(models.Model):
     currency_type = models.CharField(max_length=20, choices=PRICE_CHOICES,default="Birr")
     score = models.PositiveIntegerField(default = 0)
     was_paid = models.BooleanField(default=False)
+
+class WorkInProgress(models.Model):
+    job = models.OneToOneField(Job, on_delete=models.CASCADE, related_name='jobs')
+    application = models.OneToOneField(Application, on_delete=models.CASCADE, related_name='applications')
+    started_at = models.DateTimeField(default=timezone.now)
+    is_finished = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return "Current job in progress: " + str(self.job.title)
     
