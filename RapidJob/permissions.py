@@ -22,3 +22,11 @@ class IsSenderOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         # Allow read permissions to any request, but only allow writes if sender is requesting user
         return request.method in SAFE_METHODS or obj.sender == request.user
+    
+
+class IsAdmin(BasePermission):
+    """
+    Custom permission to only allow admins to perform certain actions.
+    """
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.account_type == "Admin"
