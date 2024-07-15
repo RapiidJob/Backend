@@ -1,5 +1,3 @@
-# accounts/urls.py
-
 from django.urls import path
 from . import views
 
@@ -12,4 +10,5 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(), name='login'),
     path('employer/verify/<int:pk>/', views.EmployerProfileVerifyAPIView.as_view(), name='employer-profile-verify'),
     path('worker/verify/<int:pk>/', views.WorkerProfileVerifyAPIView.as_view(), name="worker-profile-verify"),
+    path('employer/rate/<int:pk>', views.RateWorkerAPIView.as_view(), name='rate-worker')
 ]

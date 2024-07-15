@@ -77,6 +77,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             self.fields['is_identity_verified'].read_only = False
             self.fields['is_email_verified'].read_only = False
             self.fields['is_phone_verified'].read_only = False
+        if request and request.user.account_type == 'Employer' and 'rating' in request.data:
+            self.fields['rating'].read_only = False
 
 
     def update(self, instance, validated_data):
@@ -87,6 +89,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.is_email_verified = validated_data.get('is_email_verified', None)
             instance.is_phone_verified = validated_data.get('is_phone_verified', None)
             return super().update(instance, validated_data)
+        if request and request.user.account_type == 'Employer' and 'rating' in request.data:
+            instance.rating = validated_data.get('rating', instance.rating)
+            if instance.rating:
+                return super().update(instance, validated_data)
+            else:
+                raise Exception('rating None')
         
         address_data = validated_data.pop('address', None)
         if address_data:
@@ -107,7 +115,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class EmployerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmployerProfile
-        fields = ('id', 'plan')
+        fields = ('id', 'plan', 'jobs_completed')
     
     def create(self, validated_data):
         user_instance = self.context['request'].user 

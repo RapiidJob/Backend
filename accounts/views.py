@@ -1,5 +1,6 @@
-# views.py
 from django.shortcuts import render
+from django.db.models import Q
+
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -7,10 +8,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import ValidationError
 from RapidJob.permissions import IsAdmin
+import applications.models
 from .models import CustomUser, EmployerProfile, WorkerProfile
 from .serializers import (CustomUserRegisterSerializer, EmployerProfileSerializer,
                           WorkerProfileSerializer, LoginSerializer, 
                           CustomUserSerializer, UserAddressSerializer)
+from applications.models import Application
 
 def password_reset_confirm_view(request, uid, token):
     return render(request, 'password_reset_confirm.html', {'uid': uid, 'token': token})
@@ -294,3 +297,32 @@ class WorkerProfileVerifyAPIView(generics.UpdateAPIView):
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class RateWorkerAPIView(generics.UpdateAPIView):
+    queryset = WorkerProfile.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        try:
+            worker = WorkerProfile.objects.get(pk=pk)
+            user = CustomUser.get(worker.user)
+            jobs_completed = Application.objects.filter(Q(worker=worker) & Q(job__is_finished=True)).count() #retrieve all applications that have jobs == finished and worker == current worekr being rated
+            total_rating = float(jobs_completed - 1) * float(user.rating)
+            rate = request.data.get('rating', None)
+            if rate is None:
+                return Response({"error": "Rating not found in request"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user_rating = (total_rating + float(rate)) / jobs_completed
+            user.rating = user_rating
+            user.save()
+            
+            serializer = CustomUserSerializer(user, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except WorkerProfile.DoesNotExist:
+            return Response({'error': 'Worker not found'}, status=status.HTTP_404_NOT_FOUND)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
