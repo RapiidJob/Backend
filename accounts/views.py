@@ -59,6 +59,7 @@ class LoginView(generics.GenericAPIView):
             }
             
             user_data = CustomUserSerializer(instance=user)
+            user_data = user_data.data
             worker_profile = None
             user_data['has_specialised_profile'] = True
             if user_data['account_type'] == "Worker":
