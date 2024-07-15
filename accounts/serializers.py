@@ -10,6 +10,7 @@ class UserAddressSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'latitude': {'required': False},
+            
             'longitude': {'required': False}
         }
 
