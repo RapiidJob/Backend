@@ -7,7 +7,7 @@ from .views import (
     JobRetrieveUpdateAPIView, JobListAPIView,
     SearchDefaultView, SearchByPlaceView, 
     SearchbyLocationView, JobListByCategoryAPIView, 
-    JobListByUserAPIView, JobCatagoryAPIView, SearchByKeyWordAPIView, UserSavedJobListCreateAPIView
+    JobListByUserAPIView, JobCatagoryAPIView, SearchByKeyWordAPIView, UserSavedJobListCreateAPIView,UserSavedJobRetrieveUpdateDestroyAPIView
 )
 
 urlpatterns = [
@@ -23,4 +23,5 @@ urlpatterns = [
     path('search_by_place/', SearchByPlaceView.as_view(), name="search-by-place"), # Search based on place filled by the worker.
     path('search_by_key_word/', SearchByKeyWordAPIView.as_view(), name="search-by-keyword"),
     path('saved/', UserSavedJobListCreateAPIView.as_view(), name="saved"),
+    path('saved/<int:pk>/', UserSavedJobRetrieveUpdateDestroyAPIView.as_view(), name="saved"),
 ]
