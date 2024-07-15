@@ -124,10 +124,10 @@ class ApplicationByUserAPIView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated, IsWorker]
     
-    pagination_class = pagination.StandardPageNumberPagination
+    # pagination_class = pagination.StandardPageNumberPagination
     
-    filter_backends = ['ordering']  
-    ordering_fields = ['-application_date_time']  # Allow ordering by creation date (descending) and category
+    # filter_backends = ['ordering']  
+    # ordering_fields = ['-application_date_time']  # Allow ordering by creation date (descending) and category
 
     def get_queryset(self):
         return super().get_queryset().filter(worker=self.request.user)
