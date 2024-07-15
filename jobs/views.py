@@ -311,7 +311,7 @@ class UserSavedJobListCreateAPIView(generics.ListCreateAPIView):
     pagination_class = pagination.StandardPageNumberPagination
     
     filter_backends = ['ordering']  
-    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
 
     def get_queryset(self):

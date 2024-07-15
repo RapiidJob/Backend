@@ -32,7 +32,7 @@ class ApplicationListAPIView(generics.ListAPIView):
     pagination_class = pagination.StandardPageNumberPagination
     
     filter_backends = ['ordering']  
-    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
 
     def list(self, request, *args, **kwargs):
@@ -78,7 +78,7 @@ class WorkHistoryListCreateAPIView(generics.ListCreateAPIView):
     pagination_class = pagination.StandardPageNumberPagination
     
     filter_backends = ['ordering']  
-    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
 
     def perform_create(self, serializer):
@@ -127,7 +127,7 @@ class ApplicationByUserAPIView(generics.ListAPIView):
     pagination_class = pagination.StandardPageNumberPagination
     
     filter_backends = ['ordering']  
-    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
     def get_queryset(self):
         return super().get_queryset().filter(worker=self.request.user)
@@ -146,7 +146,7 @@ class ApplicationByJobAPView(generics.ListAPIView):
     pagination_class = pagination.StandardPageNumberPagination
     
     filter_backends = ['ordering']  
-    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
 
     def get_queryset(self):
@@ -166,7 +166,7 @@ class WorkInProgressCreateAPIView(generics.CreateAPIView):
     pagination_class = pagination.StandardPageNumberPagination
     
     filter_backends = ['ordering']  
-    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
 
     def perform_create(self, serializer):
