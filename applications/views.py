@@ -77,8 +77,8 @@ class WorkHistoryListCreateAPIView(generics.ListCreateAPIView):
     
     pagination_class = pagination.StandardPageNumberPagination
     
-    filter_backends = ['ordering']  
-    ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
+    # filter_backends = ['ordering']  
+    # ordering_fields = ['-created_at']  # Allow ordering by creation date (descending) and category
 
 
     def perform_create(self, serializer):
@@ -145,8 +145,8 @@ class ApplicationByJobAPView(generics.ListAPIView):
     
     pagination_class = pagination.StandardPageNumberPagination
     
-    filter_backends = ['ordering']  
-    ordering_fields = ['-application_date_time']  # Allow ordering by creation date (descending) and category
+    # filter_backends = ['ordering']  
+    # ordering_fields = ['-application_date_time']  # Allow ordering by creation date (descending) and category
 
 
     def get_queryset(self):
@@ -165,8 +165,8 @@ class WorkInProgressCreateAPIView(generics.CreateAPIView):
     
     pagination_class = pagination.StandardPageNumberPagination
     
-    filter_backends = ['ordering']  
-    ordering_fields = ['-started_at']  # Allow ordering by creation date (descending) and category
+    # filter_backends = ['ordering']  
+    # ordering_fields = ['-started_at']  # Allow ordering by creation date (descending) and category
 
 
     def perform_create(self, serializer):
