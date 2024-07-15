@@ -300,7 +300,7 @@ class SearchByKeyWordAPIView(generics.GenericAPIView):
             serializer = JobSerializer(paginated_jobs, many=True)
             return paginator.get_paginated_response(serializer.data)
 
-        except:
+        except Exception as e:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
