@@ -59,11 +59,29 @@ class LoginView(generics.GenericAPIView):
             }
             
             user_data = CustomUserSerializer(instance=user)
-            
+            worker_profile = None
+            if user_data['account_type'] == "Worker":
+                try:
+                    worker_profile = WorkerProfile.objects.get(user=user)
+                    user_data['plan'] = worker_profile.plan
+                    user_data['last_paid'] = worker_profile.last_paid
+                    user_data['profile_image'] = worker_profile.profile_image
+                except:
+                    worker_profile = None
+            if user_data['account_type'] == "Employer":
+                try:
+                    employer_profile = EmployerProfile.objects.get(user=user)
+                    user_data['plan'] = employer_profile.plan
+                    user_data['last_paid'] = employer_profile.last_paid
+                    user_data['profile_image'] = employer_profile.profile_image
+                except:
+                    employer_profile = None
+                    
             response_data = {
                 'user': user_data.data,
                 'token': token_data
             }
+            
             
             return Response(response_data, status=status.HTTP_200_OK)
         except ValidationError as e:
