@@ -68,3 +68,7 @@ class Job(models.Model):
         return "job_" + str(self.id) + " " + self.title
 
 
+class UserSavedJob(models.Model):
+    user = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE, related_name='saved_jobs')
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='saved_jobs')
+    created_at = models.DateTimeField(auto_now_add=True)

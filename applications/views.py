@@ -9,6 +9,7 @@ from .serializers import (
         WorkHistorySerializer, WorkinProgressSerializer
     )
 from RapidJob.permissions import IsWorker, IsEmployer
+from RapidJob import pagination
 
 class ApplicationCreateAPIView(generics.CreateAPIView):
     queryset = Application.objects.all()
@@ -27,6 +28,12 @@ class ApplicationListAPIView(generics.ListAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated]
+    
+    pagination_class = pagination.StandardPageNumberPagination
+    
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
 
     def list(self, request, *args, **kwargs):
         try:
@@ -40,6 +47,8 @@ class ApplicationRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated]
+    
+    
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -65,6 +74,12 @@ class WorkHistoryListCreateAPIView(generics.ListCreateAPIView):
     queryset = WorkHistory.objects.all()
     serializer_class = WorkHistorySerializer
     permission_classes = [IsAuthenticated]
+    
+    pagination_class = pagination.StandardPageNumberPagination
+    
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
 
     def perform_create(self, serializer):
         try:
@@ -84,6 +99,7 @@ class WorkHistoryRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = WorkHistory.objects.all()
     serializer_class = WorkHistorySerializer
     permission_classes = [IsAuthenticated]
+    
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -108,6 +124,11 @@ class ApplicationByUserAPIView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated, IsWorker]
     
+    pagination_class = pagination.StandardPageNumberPagination
+    
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
     def get_queryset(self):
         return super().get_queryset().filter(worker=self.request.user)
 
@@ -121,6 +142,12 @@ class ApplicationByJobAPView(generics.ListAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated, IsWorker]
+    
+    pagination_class = pagination.StandardPageNumberPagination
+    
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
 
     def get_queryset(self):
         return super().get_queryset().filter(job=self.request.query_params.get('job_id'))
@@ -135,6 +162,12 @@ class ApplicationByJobAPView(generics.ListAPIView):
 class WorkInProgressCreateAPIView(generics.CreateAPIView):
     queryset = WorkInProgress.objects.all()
     serializer_class = WorkinProgressSerializer
+    
+    pagination_class = pagination.StandardPageNumberPagination
+    
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
 
     def perform_create(self, serializer):
         return super().perform_create(serializer)

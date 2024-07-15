@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Job, JobAddress, JobPostPhoto, JobCategory, JobSubcategory
+from .models import Job, JobAddress, JobPostPhoto, JobCategory, JobSubcategory, UserSavedJob
 from accounts.serializers import CustomUserSerializer
 
 class JobAddressSerializer(serializers.ModelSerializer):
@@ -82,5 +82,13 @@ class JobSerializer(serializers.ModelSerializer):
         return instance
 
 
+class SavedJobSerializer(serializers.ModelSerializer):
+    job = JobSerializer(read_only=True)
+    job_id = serializers.PrimaryKeyRelatedField(queryset=Job.objects.all(), source='job', write_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
 
-
+    class Meta:
+        model = UserSavedJob
+        fields = ['id', 'user', 'job', 'job_id', 'created_at']
+        
+        

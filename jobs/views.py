@@ -1,8 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import Job, JobAddress, JobCategory, JobSubcategory
-from .serializers import JobSerializer, JobAddressSerializer, JobCatagoryReadSerializer
+from .models import Job, JobAddress, JobCategory, JobSubcategory, UserSavedJob
+from .serializers import JobSerializer, JobAddressSerializer, JobCatagoryReadSerializer, SavedJobSerializer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
@@ -302,3 +302,31 @@ class SearchByKeyWordAPIView(generics.GenericAPIView):
 
         except:
             return Response({"message": "An unexpected error occurred", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+class UserSavedJobListCreateAPIView(generics.ListCreateAPIView):
+    queryset = UserSavedJob.objects.all()
+    serializer_class = SavedJobSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = pagination.StandardPageNumberPagination
+    
+    filter_backends = ['ordering']  
+    ordering_fields = ['-created_at', 'category']  # Allow ordering by creation date (descending) and category
+
+
+    def get_queryset(self):
+        # Filter queryset to only include saved jobs of the current user
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically set the user based on the request's authenticated user
+        serializer.save(user=self.request.user)
+
+class UserSavedJobRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserSavedJob.objects.all()
+    serializer_class = SavedJobSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Filter queryset to only include saved jobs of the current user
+        return self.queryset.filter(user=self.request.user)
