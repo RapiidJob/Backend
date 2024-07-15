@@ -82,8 +82,8 @@ class LoginView(generics.GenericAPIView):
                     user_data['has_specialised_profile'] = False
                     
             response_data = {
-                'user': user_data.data,
-                'token': token_data
+                'user': user_data,
+                'token': token_data\
             }
             
             
