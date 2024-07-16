@@ -6,7 +6,7 @@ from .serializers import JobSerializer, JobAddressSerializer, JobCatagoryReadSer
 from django.db.models import Q
 from RapidJob.permissions import IsEmployer, IsWorker
 from rest_framework.exceptions import ValidationError
-from .utils import *
+from .utils import haversine, create_job_address_from_user
 from RapidJob import pagination
 from rest_framework.decorators import action
 
@@ -145,40 +145,51 @@ class JobRetrieveAPIView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
 
 
+
 class SearchDefaultView(generics.GenericAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
-        title = request.data.get('title', None)
-        category = request.data.get('category', None)
-        
-        user_instance = request.user
-        address = user_instance.address
+    def get(self, request, *args, **kwargs):
+        keyword = request.query_params.get('keyword', None)
+        latitude = request.query_params.get('latitude', None)
+        longitude = request.query_params.get('longitude', None)
+        largest_price = request.query_params.get('largest_price', 'false').lower() == 'true'
+        smallest_price = request.query_params.get('smallest_price', 'false').lower() == 'true'
+        newest = request.query_params.get('newest', 'false').lower() == 'true'
+        oldest = request.query_params.get('oldest', 'false').lower() == 'true'
 
-        if not address:
-            return Response({"errors":"User address is required for this search."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        jobs = Job.objects.filter(
-            Q(job_address__country__icontains=address.country) |
-            Q(job_address__region__icontains=address.region) |
-            (Q(job_address__city__icontains=address.city) | Q(job_address__city__isnull=True))
-        )
-        if title and category:
+        jobs = Job.objects.all()
+
+        if keyword:
             jobs = jobs.filter(
-                Q(subcategory__name__icontains=category) |
-                Q(title__icontains=title)
+                Q(title__icontains=keyword) |
+                Q(description__icontains=keyword) |
+                Q(subcategory__name__icontains=keyword) |
+                Q(category__name__icontains=keyword)
             )
-        elif title:
-            jobs = jobs.filter(Q(title__icontains=title))
-        elif category:
-            jobs=jobs.filter(Q(subcategory__name__icontains=category))
+
+        if largest_price:
+            jobs = jobs.order_by('-price')
+        elif smallest_price:
+            jobs = jobs.order_by('price')
+
+        if newest:
+            jobs = jobs.order_by('-created_at')
+        elif oldest:
+            jobs = jobs.order_by('created_at')
         
+        def job_within_distance(job):
+                if job.job_address and job.job_address.latitude and job.job_address.longitude:
+                    return haversine(latitude, longitude, float(job.job_address.latitude), float(job.job_address.longitude)) <= 5000
+                return False
+        jobs = list(filter(job_within_distance, jobs))
         paginator = pagination.StandardPageNumberPagination()
         paginated_jobs = paginator.paginate_queryset(jobs, request)
         serializer = JobSerializer(paginated_jobs, many=True)
         return paginator.get_paginated_response(serializer.data)
+    
     
 class SearchByPlaceView(generics.GenericAPIView):
     queryset = Job.objects.all()
@@ -212,6 +223,7 @@ class SearchByPlaceView(generics.GenericAPIView):
                 jobs = jobs.filter(Q(title__icontains=title))
             elif category:
                 jobs = jobs.filter(Q(subcategory__name__icontains=category))
+            
             
             paginator = pagination.StandardPageNumberPagination()
             paginated_jobs = paginator.paginate_queryset(jobs, request)
