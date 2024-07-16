@@ -184,7 +184,8 @@ class SearchDefaultView(generics.GenericAPIView):
                 if job.job_address and job.job_address.latitude and job.job_address.longitude:
                     return haversine(latitude, longitude, float(job.job_address.latitude), float(job.job_address.longitude)) <= 5000
                 return False
-        jobs = list(filter(job_within_distance, jobs))
+        if latitude and longitude:
+            jobs = list(filter(job_within_distance, jobs))
         paginator = pagination.StandardPageNumberPagination()
         paginated_jobs = paginator.paginate_queryset(jobs, request)
         serializer = JobSerializer(paginated_jobs, many=True)
