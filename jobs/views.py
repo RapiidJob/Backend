@@ -171,9 +171,9 @@ class SearchDefaultView(generics.GenericAPIView):
             )
 
         if largest_price:
-            jobs = jobs.order_by('-price')
+            jobs = jobs.order_by('-estimated_price')
         elif smallest_price:
-            jobs = jobs.order_by('price')
+            jobs = jobs.order_by('estimated_price')
 
         if newest:
             jobs = jobs.order_by('-created_at')
